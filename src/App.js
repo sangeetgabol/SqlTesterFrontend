@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from "react";
 
-function App() {
+import UserProvider from "./components/Auth/Provider";
+
+import Layout from "./components/Layout";
+
+import CssBaseline from "@material-ui/core/CssBaseline";
+
+// const LoadableDatabaseProvider = React.lazy(() =>
+//   import("./components/Database/Provider" /* webpackChunkName: "database" */)
+// );
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserProvider>
+      <Suspense fallback={<div>Loading...</div>}>
+        <CssBaseline />
+        <Layout />
+        {/* <LoadableDatabaseProvider></LoadableDatabaseProvider> */}
+      </Suspense>
+    </UserProvider>
   );
-}
+};
 
 export default App;

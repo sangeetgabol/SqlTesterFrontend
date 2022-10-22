@@ -1,0 +1,50 @@
+// import React from "react";
+
+// // import initSqlJs from "sql.js/dist/sql-wasm";
+
+// import initSqlJs from "sql.js";
+
+// // Required to let webpack 4 know it needs to copy the wasm file to our assets
+// // eslint-disable-next-line import/no-webpack-loader-syntax
+// import sqlWasm from "!!file-loader?name=sql-wasm-[contenthash].wasm!sql.js/dist/sql-wasm.wasm";
+
+// import getDatabase from "./utils/getDatabase";
+// import saveDatabase from "./utils/saveDatabase";
+
+// import DatabaseContext from "./Context";
+
+// export default class Provider extends React.Component {
+//   loadDatabase = async (typedArray) => {
+//     const SQL = await initSqlJs({ locateFile: () => sqlWasm });
+
+//     // Create a new SQL object
+//     const database = new SQL.Database(typedArray);
+
+//     database.lastModified = Date.now();
+
+//     // Save the database in the cache, for persistence without reliance of the server.
+//     saveDatabase(database);
+
+//     return this.setState({ database });
+//   };
+
+//   state = {
+//     database: null,
+//     loadDatabase: this.loadDatabase,
+//   };
+
+//   async componentDidMount() {
+//     // Get a database from "somewhere"; localStorage or the default server-side.
+//     const database = await getDatabase();
+
+//     this.loadDatabase(database);
+//   }
+
+//   render() {
+//     return (
+//       <DatabaseContext.Provider value={this.state}>
+//         {this.props.children}
+//       </DatabaseContext.Provider>
+//     );
+//   }
+// }
