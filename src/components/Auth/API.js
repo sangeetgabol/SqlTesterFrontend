@@ -3,16 +3,16 @@ import handleError from "../../utils/handleError";
 export const login = (username, password) => {
   const data = { username, password };
 
-  return fetch("/api/user/login", {
+  return fetch("htps://localhost:3001/api/user/login", {
     method: "POST",
     body: JSON.stringify(data),
     credentials: "same-origin",
     headers: new Headers({
-      "Content-Type": "application/json"
-    })
+      "Content-Type": "application/json",
+    }),
   })
     .then(handleError)
-    .then(response => response.json());
+    .then((response) => response.json());
 };
 
 export const getCurrentUser = () => {
@@ -20,11 +20,11 @@ export const getCurrentUser = () => {
     method: "GET",
     credentials: "same-origin",
     headers: new Headers({
-      "Content-Type": "application/json"
-    })
+      "Content-Type": "application/json",
+    }),
   })
     .then(handleError)
-    .then(response => response.json());
+    .then((response) => response.json());
 };
 
 export const logout = () => {
@@ -32,7 +32,7 @@ export const logout = () => {
     method: "GET",
     credentials: "same-origin",
     headers: new Headers({
-      "Content-Type": "application/json"
-    })
+      "Content-Type": "application/json",
+    }),
   }).then(handleError);
 };

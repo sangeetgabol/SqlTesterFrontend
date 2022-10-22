@@ -14,44 +14,36 @@ import { logout } from "./API";
 
 import Tooltip from "@material-ui/core/Tooltip";
 
-class LoggedIn extends React.Component {
-  handleLogout = () => logout().then(() => this.props.logoutHandler());
+function LoggedIn({ logoutHandler, user, joinGroup, leaveGroup }) {
+  const handleLogout = () => logout().then(() => logoutHandler());
 
-  render() {
-    const { user, joinGroup, leaveGroup } = this.props;
+  return (
+    <React.Fragment>
+      <DatabaseContext.Consumer>
+        {({ database: currentDatabase, loadDatabase }) => (
+          <React.Fragment>
+            <SavedDatabase
+              currentDatabase={currentDatabase}
+              loadDatabaseHandler={loadDatabase}
+              disabled={Boolean(user.group)}
+            />
+            <Group
+              loadDatabaseHandler={loadDatabase}
+              currentGroup={user && user.group}
+              joinGroupHandler={joinGroup}
+              leaveGroupHandler={leaveGroup}
+            />
+          </React.Fragment>
+        )}
+      </DatabaseContext.Consumer>
 
-    return (
-      <React.Fragment>
-        <DatabaseContext.Consumer>
-          {({ database: currentDatabase, loadDatabase }) => (
-            <React.Fragment>
-              <SavedDatabase
-                currentDatabase={currentDatabase}
-                loadDatabaseHandler={loadDatabase}
-                disabled={Boolean(user.group)}
-              />
-              <Group
-                loadDatabaseHandler={loadDatabase}
-                currentGroup={user && user.group}
-                joinGroupHandler={joinGroup}
-                leaveGroupHandler={leaveGroup}
-              />
-            </React.Fragment>
-          )}
-        </DatabaseContext.Consumer>
-
-        <Tooltip title="Logout">
-          <IconButton
-            color="inherit"
-            aria-label="Logout"
-            onClick={this.handleLogout}
-          >
-            <LogoutIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-      </React.Fragment>
-    );
-  }
+      <Tooltip title="Logout">
+        <IconButton color="inherit" aria-label="Logout" onClick={handleLogout}>
+          <LogoutIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
+    </React.Fragment>
+  );
 }
 
 export default LoggedIn;
