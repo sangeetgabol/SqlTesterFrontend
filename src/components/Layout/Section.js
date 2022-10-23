@@ -5,13 +5,13 @@ import Typography from "@material-ui/core/Typography";
 
 import { withStyles } from "@material-ui/core/styles";
 
-const styles = theme => ({
+const styles = (theme) => ({
   seperator: {
-    margin: theme.spacing(2)
-  }
+    margin: theme.spacing(2),
+  },
 });
 
-const Section = props => {
+const Section = (props) => {
   const { classes, title, children, padding = 0, ...other } = props;
 
   const paperStyle = { padding };

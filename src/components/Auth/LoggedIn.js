@@ -1,7 +1,7 @@
 import React from "react";
 //import PropTypes from 'prop-types';
 
-import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@mui/material/IconButton";
 
 import LogoutIcon from "@mui/icons-material/Logout";
 
@@ -11,8 +11,7 @@ import SavedDatabase from "../SavedDatabase";
 import DatabaseContext from "../Database/Context";
 
 import { logout } from "./API";
-
-import Tooltip from "@material-ui/core/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 
 function LoggedIn({ logoutHandler, user, joinGroup, leaveGroup }) {
   const handleLogout = () => logout().then(() => logoutHandler());

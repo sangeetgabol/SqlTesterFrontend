@@ -3,7 +3,7 @@ import React from "react";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-
+import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export default class DatabaseItem extends React.Component {
@@ -21,9 +21,9 @@ export default class DatabaseItem extends React.Component {
         <ListItemText primary={title} secondary={date} />
         {this.props.deleteHandler && (
           <ListItemSecondaryAction onClick={this.handleDelete}>
-            {/* <IconButton aria-label="Delete"> */}
-            <DeleteIcon />
-            {/* </IconButton> */}
+            <IconButton aria-label="Delete">
+              <DeleteIcon />
+            </IconButton>
           </ListItemSecondaryAction>
         )}
       </ListItem>

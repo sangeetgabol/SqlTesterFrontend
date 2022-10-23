@@ -1,50 +1,54 @@
-// import React from "react";
+import React from "react";
 
-// // import initSqlJs from "sql.js/dist/sql-wasm";
+// import initSqlJs from "sql.js/dist/sql-wasm";
 
-// import initSqlJs from "sql.js";
+import initSqlJs from "sql.js";
 
-// // Required to let webpack 4 know it needs to copy the wasm file to our assets
-// // eslint-disable-next-line import/no-webpack-loader-syntax
+// Required to let webpack 4 know it needs to copy the wasm file to our assets
+// eslint-disable-next-line import/no-webpack-loader-syntax
 // import sqlWasm from "!!file-loader?name=sql-wasm-[contenthash].wasm!sql.js/dist/sql-wasm.wasm";
 
-// import getDatabase from "./utils/getDatabase";
-// import saveDatabase from "./utils/saveDatabase";
+import getDatabase from "./utils/getDatabase";
+import saveDatabase from "./utils/saveDatabase";
 
-// import DatabaseContext from "./Context";
+import DatabaseContext from "./Context";
+import file from "../../sql-wasm.wasm";
+// const initSqlJs = window.initSqlJs;
 
-// export default class Provider extends React.Component {
-//   loadDatabase = async (typedArray) => {
-//     const SQL = await initSqlJs({ locateFile: () => sqlWasm });
+export default class Provider extends React.Component {
+  loadDatabase = async (typedArray) => {
+    const SQL = await initSqlJs({
+      locateFile: () => file,
+    });
+    console.log(SQL);
+    // Create a new SQL object
+    const database = new SQL.Database(typedArray);
 
-//     // Create a new SQL object
-//     const database = new SQL.Database(typedArray);
+    database.lastModified = Date.now();
 
-//     database.lastModified = Date.now();
+    // Save the database in the cache, for persistence without reliance of the server.
+    saveDatabase(database);
 
-//     // Save the database in the cache, for persistence without reliance of the server.
-//     saveDatabase(database);
+    return this.setState({ database });
+  };
 
-//     return this.setState({ database });
-//   };
+  state = {
+    database: null,
+    loadDatabase: this.loadDatabase,
+  };
 
-//   state = {
-//     database: null,
-//     loadDatabase: this.loadDatabase,
-//   };
+  async componentDidMount() {
+    // Get a database from "somewhere"; localStorage or the default server-side.
+    const database = await getDatabase();
 
-//   async componentDidMount() {
-//     // Get a database from "somewhere"; localStorage or the default server-side.
-//     const database = await getDatabase();
+    this.loadDatabase(database);
+  }
 
-//     this.loadDatabase(database);
-//   }
-
-//   render() {
-//     return (
-//       <DatabaseContext.Provider value={this.state}>
-//         {this.props.children}
-//       </DatabaseContext.Provider>
-//     );
-//   }
-// }
+  render() {
+    return (
+      <DatabaseContext.Provider value={this.state}>
+        {this.props.children}
+      </DatabaseContext.Provider>
+    );
+  }
+}

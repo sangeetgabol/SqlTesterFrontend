@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 
-import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@mui/material/IconButton";
 import StorageIcon from "@mui/icons-material/Storage";
 
 import Tooltip from "@material-ui/core/Tooltip";
@@ -27,13 +27,13 @@ export default class SavedDatabase extends React.Component {
       return (
         <Tooltip title="Disabled while in a group">
           <span style={{ display: "inline-block" }}>
-            {/* <IconButton
+            <IconButton
               color="inherit"
               aria-label="Saved Database Actions"
               disabled
-            > */}
-            <StorageIcon fontSize="small" />
-            {/* </IconButton> */}
+            >
+              <StorageIcon fontSize="small" />
+            </IconButton>
           </span>
         </Tooltip>
       );

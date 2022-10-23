@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 
-import Tooltip from "@material-ui/core/Tooltip";
-
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
 const LoadableGroupManager = React.lazy(() =>
   import("./GroupManager" /* webpackChunkName: "groups" */)
 );
@@ -28,14 +28,14 @@ export default class Group extends React.Component {
     return (
       <React.Fragment>
         <Tooltip title="Groups">
-          {/* <IconButton
+          <IconButton
             color={currentGroup ? "secondary" : "inherit"}
             aria-label="Group List"
             onClick={this.handleOpen}
             onMouseOver={this.handleMouseOver}
-          > */}
-          {/* <GroupIcon fontSize="small" /> */}
-          {/* </IconButton> */}
+          >
+            {/* <GroupIcon fontSize="small" /> */}
+          </IconButton>
         </Tooltip>
         {open && (
           <Suspense fallback={<div>Loading...</div>}>

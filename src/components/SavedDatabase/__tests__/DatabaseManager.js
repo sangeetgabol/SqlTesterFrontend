@@ -2,15 +2,14 @@ import React from "react";
 import { shallow, mount } from "enzyme";
 import DatabaseManager from "../DatabaseManager";
 
-import IconButton from "@material-ui/core/IconButton";
-
-import Dialog from "@material-ui/core/Dialog";
+import IconButton from "@mui/material/IconButton";
+import Dialog from "@mui/material/Dialog";
 
 import { Switch, Route, MemoryRouter } from "react-router-dom";
 
 import SaveDatabase from "../SaveDatabase";
 import DatabaseList from "../DatabaseList";
-import Tooltip from "@material-ui/core/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 
 jest.mock("../SaveDatabase.js");
 jest.mock("../DatabaseList.js");
@@ -21,11 +20,11 @@ SaveDatabase.mockImplementation(() => true);
 fetch.mockImplementation(() =>
   Promise.resolve({
     ok: true,
-    json: () => Promise.resolve({})
+    json: () => Promise.resolve({}),
   })
 );
 
-const flushPromises = () => new Promise(resolve => setImmediate(resolve));
+const flushPromises = () => new Promise((resolve) => setImmediate(resolve));
 
 describe("DatabaseManager component", () => {
   let component;
@@ -49,7 +48,7 @@ describe("DatabaseManager component", () => {
 
     const routeRenderComponents = mount(
       <MemoryRouter initialEntries={["/", "/database/save"]} initialIndex={0}>
-        <Switch>{allRoutes.map(route => route)}</Switch>
+        <Switch>{allRoutes.map((route) => route)}</Switch>
       </MemoryRouter>
     );
 
@@ -61,7 +60,7 @@ describe("DatabaseManager component", () => {
 
     const routeRenderComponents = mount(
       <MemoryRouter initialEntries={["/", "/database/save"]} initialIndex={1}>
-        <Switch>{allRoutes.map(route => route)}</Switch>
+        <Switch>{allRoutes.map((route) => route)}</Switch>
       </MemoryRouter>
     );
 
