@@ -1,4 +1,4 @@
-import React from "react";
+import React , { useState, useEffect } from "react";
 
 import SnackBar from "@material-ui/core/Snackbar";
 import SnackBarContent from "@material-ui/core/SnackbarContent";
@@ -50,71 +50,58 @@ const style = (theme) => ({
   },
 });
 
-class Feedback extends React.Component {
-  queue = [];
+let queue = [];
 
-  state = {
-    message: null,
-    variant: null,
-    timestamp: null,
-    open: false,
-  };
+function Feedback ({timestamp,message,variant,classes}) {
+  const [Message, setMessage] = useState(null);
+  const [Variant, setVariant] = useState(null);
+  const [timeStamp, setTimestamp] = useState(null);
+  const [open, setOpen] = useState(false);
 
-  componentDidUpdate(prevProps) {
-    // Skip if no feedback object is passed OR is the same as the previous object.
-    if (
-      !this.props.timestamp ||
-      (typeof prevProps.timestamp !== "undefined" &&
-        this.props.timestamp === prevProps.timestamp)
-    ) {
-      return;
-    }
-
-    // If a new feedback object is passed, and isn't the same as the previous object injected
-    this.queue.push({
-      message: this.props.message,
-      variant: this.props.variant,
-      timestamp: this.props.timestamp,
+  useEffect((prevProps)=>{   if (
+    !timestamp ||
+    (typeof timestamp !== "undefined" &&
+      timestamp === prevProps.timestamp)
+  ) {
+    return;
+  }
+     queue.push({
+      message: message,
+      variant: variant,
+      timestamp: timestamp,
     });
 
-    if (this.state.open) {
+    if (open) {
       // immediately begin dismissing current message
       // to start showing new one
-      return this.setState({ open: false });
+      return setOpen(false)
     } else {
-      return this.processQueue();
+      return processQueue();
     }
-  }
+   }, [])
 
-  handleClose = (event, reason) => {
+
+ const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
-    this.setState({ open: false });
+    setOpen(false)
   };
 
-  processQueue = () => {
-    if (this.queue.length > 0) {
-      const { message, variant, timestamp } = this.queue.shift();
-
-      this.setState({
-        message,
-        variant,
-        timestamp,
-        open: true,
-      });
+  const processQueue = () => {
+    if (queue.length > 0) {
+      const { message, variant, timestamp } = queue.shift();
+      setMessage(message)
+      setVariant(variant)
+      setTimestamp(timestamp)
+      setOpen(true)
     }
   };
 
-  handleExited = () => this.processQueue();
+  const handleExited = () => processQueue();
 
-  render() {
-    const { classes } = this.props;
-
-    const { message, variant, timestamp, open } = this.state;
-
-    // Return nothing if no message is set yet.
+  
+  // Return nothing if no message is set yet.
     if (!message) return null;
 
     const Icon = variantIcon[variant];
@@ -128,8 +115,8 @@ class Feedback extends React.Component {
         }}
         open={open}
         autoHideDuration={5000}
-        onClose={this.handleClose}
-        onExited={this.handleExited}
+        onClose={handleClose}
+        onExited={handleExited}
       >
         <SnackBarContent
           className={classes[variant]}
@@ -145,7 +132,7 @@ class Feedback extends React.Component {
               key="close"
               aria-label="Dismiss"
               size="small"
-              onClick={this.handleClose}
+              onClick={handleClose}
             >
               Dismiss
             </Button>
@@ -154,6 +141,6 @@ class Feedback extends React.Component {
       </SnackBar>
     );
   }
-}
+
 
 export default withStyles(style)(Feedback);
