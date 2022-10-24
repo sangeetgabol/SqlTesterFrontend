@@ -9,15 +9,16 @@ import UserContext from "../Auth/Context";
 
 const displayNone = { display: "none" };
 
-class UploadDatabase extends React.Component {
-  handleUpload = (e) => {
+function UploadDatabase() {
+  const handleUpload = (e) => {
     const files = e.target.files;
 
+    // console.log(files);
     // No file selected, return
     if (files.length === 0) return false;
 
     const [file] = files;
-
+    console.log(file);
     const fileReader = new FileReader();
 
     fileReader.onload = () => {
@@ -34,44 +35,43 @@ class UploadDatabase extends React.Component {
     e.target.value = "";
   };
 
-  render() {
-    return (
-      <UserContext.Consumer>
-        {({ user, isLoaded }) =>
-          isLoaded &&
-          (user && user.group ? (
-            <Tooltip title="Disabled while in a group">
-              <span>
-                <IconButton
-                  component="span"
-                  aria-label="Upload Database"
-                  disabled
-                >
+  // render() {
+  return (
+    <UserContext.Consumer>
+      {({ user, isLoaded }) =>
+        isLoaded &&
+        (user && user.group ? (
+          <Tooltip title="Disabled while in a group">
+            <span>
+              <IconButton
+                component="span"
+                aria-label="Upload Database"
+                disabled
+              >
+                <CloudUploadIcon />
+              </IconButton>
+            </span>
+          </Tooltip>
+        ) : (
+          <React.Fragment>
+            <Tooltip title="Upload Database">
+              <label>
+                <IconButton component="span" aria-label="Upload Database">
                   <CloudUploadIcon />
                 </IconButton>
-              </span>
+                <input
+                  accept=".db,.sqlite"
+                  onChange={handleUpload}
+                  style={displayNone}
+                  type="file"
+                />
+              </label>
             </Tooltip>
-          ) : (
-            <React.Fragment>
-              <Tooltip title="Upload Database">
-                <label>
-                  <IconButton component="span" aria-label="Upload Database">
-                    <CloudUploadIcon />
-                  </IconButton>
-                  <input
-                    accept=".db,.sqlite"
-                    onChange={this.handleUpload}
-                    style={displayNone}
-                    type="file"
-                  />
-                </label>
-              </Tooltip>
-            </React.Fragment>
-          ))
-        }
-      </UserContext.Consumer>
-    );
-  }
+          </React.Fragment>
+        ))
+      }
+    </UserContext.Consumer>
+  );
 }
 
 export default UploadDatabase;

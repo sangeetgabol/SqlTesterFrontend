@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import PropTypes from "prop-types";
 
@@ -33,61 +33,60 @@ const styles = (theme) => ({
   },
 });
 
-class DatabaseInput extends React.Component {
-  state = {
-    statement: "",
-  };
+function DatabaseInput({ submitHandler, classes }) {
+  // state = {
+  //   statement: "",
+  // };
+  const [statement, setStatement] = useState("");
+  const handleChange = (statement) => setStatement(statement);
 
-  handleChange = (statement) => this.setState({ statement });
+  const handleClear = () => setStatement(statement);
 
-  handleClear = () => this.setState({ statement: "" });
+  const handleSubmit = () => submitHandler(this.state.statement);
 
-  handleSubmit = () => this.props.submitHandler(this.state.statement);
+  // render() {
+  // const { classes } = this.props;
 
-  render() {
-    const { classes } = this.props;
+  // const { statement } = this.state;
 
-    const { statement } = this.state;
+  return (
+    <React.Fragment>
+      <AceEditor
+        mode="sql"
+        theme="tomorrow"
+        showPrintMargin={false}
+        focus
+        height="9rem"
+        width="100%"
+        onChange={handleChange}
+        value={statement}
+        wrapEnabled
+      />
 
-    return (
-      <React.Fragment>
-        <AceEditor
-          mode="sql"
-          theme="tomorrow"
-          showPrintMargin={false}
-          focus
-          height="9rem"
-          width="100%"
-          onChange={this.handleChange}
-          value={statement}
-          wrapEnabled
-        />
-
-        <Button
-          className={classes.button}
-          size="small"
-          variant="contained"
-          color="primary"
-          aria-label="Test"
-          onClick={this.handleSubmit}
-        >
-          Test
-          <DoneIcon className={classes.rightIcon} />
-        </Button>
-        <Button
-          className={classes.button}
-          size="small"
-          variant="contained"
-          color="secondary"
-          aria-label="Clear"
-          onClick={this.handleClear}
-        >
-          Clear
-          <ClearIcon className={classes.rightIcon} />
-        </Button>
-      </React.Fragment>
-    );
-  }
+      <Button
+        className={classes.button}
+        size="small"
+        variant="contained"
+        color="primary"
+        aria-label="Test"
+        onClick={handleSubmit}
+      >
+        Test
+        <DoneIcon className={classes.rightIcon} />
+      </Button>
+      <Button
+        className={classes.button}
+        size="small"
+        variant="contained"
+        color="secondary"
+        aria-label="Clear"
+        onClick={handleClear}
+      >
+        Clear
+        <ClearIcon className={classes.rightIcon} />
+      </Button>
+    </React.Fragment>
+  );
 }
 
 DatabaseInput.propTypes = {

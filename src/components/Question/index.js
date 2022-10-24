@@ -43,6 +43,9 @@ const styles = (theme) => ({
   previousButton: {
     marginRight: theme.spacing(1),
   },
+  SkipButton: {
+    marginRight: theme.spacing(1),
+  },
   bottomActions: {
     display: "flex",
     justifyContent: "space-between",
@@ -283,6 +286,21 @@ class QuestionManager extends React.Component {
                   Previous
                 </Hidden>
               </Button>
+              <Button
+                className={classes.SkipButton}
+                variant="contained"
+                size="small"
+                color="primary"
+                aria-label="Next question"
+                onClick={this.handleNext}
+                // style={{ marginRight: "1rem" }}
+              >
+                <Hidden xsDown implementation="css">
+                  Skip
+                </Hidden>
+                {/* <KeyboardArrowRightIcon /> */}
+              </Button>
+
               <Button
                 className={classes.nextButton}
                 variant="contained"
