@@ -9,19 +9,19 @@ const containerStyle = {
   height: "100vh",
   overflow: "hidden",
   display: "flex",
-  flexDirection: "column"
+  flexDirection: "column",
 };
 
 export default class Layout extends React.Component {
   state = {
-    openSidebar: false
+    openSidebar: false,
   };
 
-  handleToggleSidebar = open =>
+  handleToggleSidebar = (open) =>
     // If the open parameter is not passed it will toggle the previous state.
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       openSidebar:
-        typeof open === "undefined" ? !prevState.openSidebar : Boolean(open)
+        typeof open === "undefined" ? !prevState.openSidebar : Boolean(open),
     }));
 
   render() {

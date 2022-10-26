@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 //import PropTypes from 'prop-types';
 
 import Button from "@material-ui/core/Button";
@@ -19,16 +19,17 @@ import { Link } from "react-router-dom";
 
 const flexSpaceBetween = { display: "flex", justifyContent: "space-between" };
 
-export default class SaveDatabase extends React.Component {
-  state = {
-    title: "",
-    error: null
-  };
+export default function SaveDatabase(props) {
+  // state = {
+  //   title: "",
+  //   error: null
+  // };
+  const [title, setTitle] = useState("");
+  const [error, setError] = useState(null);
+  const handleSaveDatabase = async () => {
+    // const { title } = this.state;
 
-  handleSaveDatabase = async () => {
-    const { title } = this.state;
-
-    const { refreshSavedDatabaseList, currentDatabase } = this.props;
+    const { refreshSavedDatabaseList, currentDatabase } = props;
 
     // Export the current database into a array buffer.
     const database = currentDatabase.export();
@@ -50,72 +51,67 @@ export default class SaveDatabase extends React.Component {
     }
   };
 
-  handleChange = e => this.setState({ title: e.target.value });
+  const handleChange = (e) => setTitle(e.target.value);
 
-  handleClose = () => this.props.closeHandler();
+  const handleClose = () => props.closeHandler();
 
-  render() {
-    const { title, error } = this.state;
+  // render() {
+  // const { title, error } = this.state;
 
-    const { currentSavedDatabaseCount } = this.props;
+  const { currentSavedDatabaseCount } = this.props;
 
-    return (
-      <React.Fragment>
-        <DialogTitle
-          id="dialog-title"
-          style={flexSpaceBetween}
-          disableTypography
+  return (
+    <React.Fragment>
+      <DialogTitle id="dialog-title" style={flexSpaceBetween} disableTypography>
+        <Typography variant="h6">Save your current database</Typography>
+        <Button
+          component={Link}
+          color="secondary"
+          variant="contained"
+          size="small"
+          to="/"
         >
-          <Typography variant="h6">Save your current database</Typography>
-          <Button
-            component={Link}
-            color="secondary"
-            variant="contained"
-            size="small"
-            to="/"
-          >
-            &laquo; Back
-          </Button>
-        </DialogTitle>
-        <DialogContent>
-          <FormControl
-            error={Boolean(error)}
-            aria-describedby="name-error-text"
+          &laquo; Back
+        </Button>
+      </DialogTitle>
+      <DialogContent>
+        <FormControl
+          error={Boolean(error)}
+          aria-describedby="name-error-text"
+          fullWidth
+        >
+          <Input
+            id="name"
+            placeholder="Please choose an identifiable title"
+            value={title}
+            onChange={handleChange}
+            margin="dense"
+            autoFocus
             fullWidth
-          >
-            <Input
-              id="name"
-              placeholder="Please choose an identifiable title"
-              value={title}
-              onChange={this.handleChange}
-              margin="dense"
-              autoFocus
-              fullWidth
-              required
-              inputProps={{ maxLength: 32 }}
-            />
-            {error && (
-              <FormHelperText id="name-error-text">{error}</FormHelperText>
-            )}
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.handleSaveDatabase}
-            disabled={Boolean(
-              currentSavedDatabaseCount && currentSavedDatabaseCount > 4
-            )}
-          >
-            Save ({currentSavedDatabaseCount}
-            /5)
-          </Button>
-          <Button onClick={this.handleClose} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </React.Fragment>
-    );
-  }
+            required
+            inputProps={{ maxLength: 32 }}
+          />
+          {error && (
+            <FormHelperText id="name-error-text">{error}</FormHelperText>
+          )}
+        </FormControl>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSaveDatabase}
+          disabled={Boolean(
+            currentSavedDatabaseCount && currentSavedDatabaseCount > 4
+          )}
+        >
+          Save ({currentSavedDatabaseCount}
+          /5)
+        </Button>
+        <Button onClick={handleClose} color="primary">
+          Cancel
+        </Button>
+      </DialogActions>
+    </React.Fragment>
+  );
 }

@@ -50,7 +50,7 @@ export default class DatabaseManager extends React.Component {
     );
 
     return (
-      <Dialog open onClose={this.handleClose} fullWidth>
+      <Dialog open={true} onClose={this.handleClose} fullWidth>
         <Router>
           {/* <Switch> */}
           <Route path="/database/save" component={SaveDatabaseComponent} />

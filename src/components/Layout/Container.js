@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Main from "./Main";
 import Sidebar from "./Sidebar";
@@ -9,61 +9,66 @@ const containerStyle = {
   display: "flex",
   flexDirection: "row",
   zIndex: 0, // The header shadow will overlap.
-  height: "100%"
+  height: "100%",
 };
 
-export default class Container extends React.Component {
-  state = {
-    results: []
+export default function Container({
+  currentDatabase,
+  sidebarToggleHandler,
+  loadDatabase,
+  openSidebar,
+}) {
+  // state = {
+  //   results: []
+  // };
+  const [results, setResult] = useState([]);
+  const handleUpdateResults = (results) => {
+    // this.setState({ results });
+    setResult(results);
   };
 
-  handleUpdateResults = results => {
-    this.setState({ results });
-  };
-
-  displaySchema = name => {
-    const { currentDatabase } = this.props;
+  const displaySchema = (name) => {
+    // const { currentDatabase } = this.props;
 
     const results = currentDatabase.exec(`SELECT * FROM ${name} LIMIT 10`);
 
-    this.handleUpdateResults(results);
+    handleUpdateResults(results);
 
-    return this.props.sidebarToggleHandler();
+    return sidebarToggleHandler();
   };
 
-  render() {
-    const {
-      currentDatabase,
-      loadDatabase,
-      openSidebar,
-      sidebarToggleHandler
-    } = this.props;
+  // render() {
+  // const {
+  //   currentDatabase,s
+  //   loadDatabase,
+  //   openSidebar,
+  //   sidebarToggleHandler
+  // } = this.props;
 
-    const { results } = this.state;
+  // const { results } = this.state;
 
-    return (
-      <div style={containerStyle}>
-        <Sidebar
-          open={openSidebar}
-          currentDatabase={currentDatabase}
-          uploadDatabaseHandler={loadDatabase}
-          showSchemaHandler={this.displaySchema}
-          toggleSidebarHandler={sidebarToggleHandler}
-        />
-        <UserContext.Consumer>
-          {({ isLoaded, user }) =>
-            isLoaded && (
-              <Main
-                user={user}
-                results={results}
-                updateResultsHandler={this.handleUpdateResults}
-                currentDatabase={currentDatabase}
-                loadDatabase={loadDatabase}
-              />
-            )
-          }
-        </UserContext.Consumer>
-      </div>
-    );
-  }
+  return (
+    <div style={containerStyle}>
+      <Sidebar
+        open={openSidebar}
+        currentDatabase={currentDatabase}
+        uploadDatabaseHandler={loadDatabase}
+        showSchemaHandler={displaySchema}
+        toggleSidebarHandler={sidebarToggleHandler}
+      />
+      <UserContext.Consumer>
+        {({ isLoaded, user }) =>
+          isLoaded && (
+            <Main
+              user={user}
+              results={results}
+              updateResultsHandler={handleUpdateResults}
+              currentDatabase={currentDatabase}
+              loadDatabase={loadDatabase}
+            />
+          )
+        }
+      </UserContext.Consumer>
+    </div>
+  );
 }

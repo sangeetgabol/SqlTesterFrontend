@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import List from "@material-ui/core/List";
 
@@ -19,12 +19,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 const flexSpaceBetween = { display: "flex", justifyContent: "space-between" };
 
-export default class DatabaseList extends React.Component {
-  state = {
-    error: null
-  };
-
-  handleLoadDatabase = async id => {
+export default function DatabaseList(props) {
+  // state = {
+  //   error: null
+  // };
+  const [error, setError] = useState(null);
+  const handleLoadDatabase = async (id) => {
     const { loadDatabaseHandler, closeHandler } = this.props;
 
     let fileBuffer;
@@ -44,7 +44,7 @@ export default class DatabaseList extends React.Component {
     }
   };
 
-  handleDeleteDatabase = async id => {
+  const handleDeleteDatabase = async (id) => {
     // Try to delete the database from the server.
     try {
       await deleteDatabase(id);
@@ -59,65 +59,64 @@ export default class DatabaseList extends React.Component {
     }
   };
 
-  handleClose = () => this.props.closeHandler();
+  const handleClose = () => this.props.closeHandler();
 
-  render() {
-    const { error } = this.state;
+  // render() {
+  // const { error } = this.state;
 
-    const { list } = this.props;
+  const { list } = props;
 
-    return (
-      <React.Fragment>
-        <DialogTitle id="dialog-title">
-          <div style={flexSpaceBetween}>
-            Saved Databases
-            <Button
-              component={Link}
-              to="/database/save"
-              color="primary"
-              variant="contained"
-              size="small"
-            >
-              Save &raquo;
-            </Button>
-          </div>
-        </DialogTitle>
-        {error && (
-          <DialogContent>
-            <DialogContentText color="error" align="center">
-              {error}
-            </DialogContentText>
-          </DialogContent>
-        )}
+  return (
+    <React.Fragment>
+      <DialogTitle id="dialog-title">
+        <div style={flexSpaceBetween}>
+          Saved Databases
+          <Button
+            component={Link}
+            to="/database/save"
+            color="primary"
+            variant="contained"
+            size="small"
+          >
+            Save &raquo;
+          </Button>
+        </div>
+      </DialogTitle>
+      {error && (
         <DialogContent>
-          <DialogContentText>
-            Allows you to save your current database in a more{" "}
-            <em>permanent</em> location, on the server.
+          <DialogContentText color="error" align="center">
+            {error}
           </DialogContentText>
         </DialogContent>
+      )}
+      <DialogContent>
+        <DialogContentText>
+          Allows you to save your current database in a more <em>permanent</em>{" "}
+          location, on the server.
+        </DialogContentText>
+      </DialogContent>
 
-        <List>
-          {list && list.length ? (
-            list.map(database => (
-              <DatabaseItem
-                key={database._id}
-                database={database}
-                clickHandler={this.handleLoadDatabase}
-                deleteHandler={this.handleDeleteDatabase}
-              />
-            ))
-          ) : (
-            <ListItem disabled>
-              <ListItemText>No saved databases yet!</ListItemText>
-            </ListItem>
-          )}
-        </List>
-        <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </React.Fragment>
-    );
-  }
+      <List>
+        {list && list.length ? (
+          list.map((database) => (
+            <DatabaseItem
+              key={database._id}
+              database={database}
+              clickHandler={handleLoadDatabase}
+              deleteHandler={handleDeleteDatabase}
+            />
+          ))
+        ) : (
+          <ListItem disabled>
+            <ListItemText>No saved databases yet!</ListItemText>
+          </ListItem>
+        )}
+      </List>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Cancel
+        </Button>
+      </DialogActions>
+    </React.Fragment>
+  );
 }

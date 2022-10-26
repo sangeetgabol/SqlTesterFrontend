@@ -77,24 +77,23 @@ const CustomTooltip = (props) => {
   return null;
 };
 
-export default class TreemapContainer extends React.PureComponent {
-  render() {
-    const { data } = this.props;
+export default function TreemapContainer(props) {
+  // render() {
+  const { data } = props;
 
-    return (
-      <ResponsiveContainer width="99%" height={280}>
-        <Treemap
-          data={data}
-          dataKey="completed"
-          nameKey="title"
-          stroke="#fff"
-          fill="#8884d8"
-          isAnimationActive={false}
-          content={<CustomizedContent />}
-        >
-          <Tooltip content={CustomTooltip} />
-        </Treemap>
-      </ResponsiveContainer>
-    );
-  }
+  return (
+    <ResponsiveContainer width="99%" height={280}>
+      <Treemap
+        data={data}
+        dataKey="completed"
+        nameKey="title"
+        stroke="#fff"
+        fill="#8884d8"
+        isAnimationActive={false}
+        content={<CustomizedContent />}
+      >
+        <Tooltip content={CustomTooltip} />
+      </Treemap>
+    </ResponsiveContainer>
+  );
 }
