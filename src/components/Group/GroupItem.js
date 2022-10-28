@@ -17,13 +17,13 @@ const styles = {
   smallButton: { padding: 6 },
 };
 
-export default class GroupItem extends React.Component {
-  handleJoinGroup = () => this.props.joinGroupHandler(this.props.group._id);
+export default function GroupItem (props) {
+ const handleJoinGroup = () => props.joinGroupHandler(props.group._id);
 
-  handleLeaveGroup = () => this.props.leaveGroupHandler();
+ const handleLeaveGroup = () => props.leaveGroupHandler();
 
-  render() {
-    const { group, dense } = this.props;
+  // render() {
+     const { group, dense } = props;
 
     const {
       _id: id,
@@ -36,7 +36,7 @@ export default class GroupItem extends React.Component {
 
     return (
       <ListItem
-        onClick={this.handleJoinGroup}
+        onClick={handleJoinGroup}
         disabled={isCurrent}
         selected={isCurrent}
         component="li"
@@ -67,7 +67,7 @@ export default class GroupItem extends React.Component {
               <IconButton
                 style={(dense && styles.smallButton) || {}}
                 color="secondary"
-                onClick={this.handleLeaveGroup}
+                onClick={handleLeaveGroup}
                 title="Leave this group"
                 aria-label="Leave current group"
               >
@@ -79,4 +79,4 @@ export default class GroupItem extends React.Component {
       </ListItem>
     );
   }
-}
+//}

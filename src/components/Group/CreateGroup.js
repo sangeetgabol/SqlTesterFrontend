@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect , useState} from "react";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -28,39 +28,53 @@ import { listDatabases } from "../SavedDatabase/API";
 
 const flexSpaceBetween = { display: "flex", justifyContent: "space-between" };
 
-class CreateGroup extends React.Component {
-  state = {
-    error: null,
-    list: null,
+function CreateGroup (props){
 
-    name: "",
-    selectedDatabase: "",
-    redirect: false,
-  };
+  const [error, setError] = useState(null);
+  const [list, setList] = useState(null);
+  const [name, setName] = useState("");
+  const [selectedDatabase, setSelectedDatabase] = useState("");
+  const [redirect, setRedirect] = useState(false);
+  // state = {
+  //   error: null,
+  //   list: null,
 
-  componentDidMount = () =>
-    listDatabases().then((list) => this.setState({ list }));
+  //   name: "",
+  //   selectedDatabase: "",
+  //   redirect: false,
+  // };
+  useEffect(()=>{
+    listDatabases().then((list) => setList(list));
 
-  handleSubmit = async () => {
-    const { name, selectedDatabase } = this.state;
+  }, [])
+
+  // componentDidMount = () =>
+  //   listDatabases().then((list) => this.setState({ list }));
+
+ const handleSubmit = async () => {
+    // const { name, selectedDatabase } = this.state;
 
     try {
       await createGroup(name, selectedDatabase);
 
-      this.setState({ redirect: true });
+      setRedirect(true);
     } catch (response) {
       const error = await response.text();
-
-      this.setState({ error });
+      setError(error);
     }
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+ const handleChangeName = (event) => {
+    setName(event.target.value)
   };
 
-  render() {
-    const { name, error, list, selectedDatabase, redirect } = this.state;
+  const handleChangeSelectedDB = (event) => {
+    setSelectedDatabase(event.target.value)
+  };
+ 
+
+  // render() {
+  //   const { name, error, list, selectedDatabase, redirect } = this.state;
 
     if (redirect) {
       return <Redirect to="/" />;
@@ -105,7 +119,7 @@ class CreateGroup extends React.Component {
                   id="name"
                   name="name"
                   value={name}
-                  onChange={this.handleChange}
+                  onChange={handleChangeName}
                   margin="dense"
                   autoFocus
                   fullWidth
@@ -122,7 +136,7 @@ class CreateGroup extends React.Component {
               <FormControl fullWidth>
                 <Select
                   value={selectedDatabase}
-                  onChange={this.handleChange}
+                  onChange={handleChangeSelectedDB}
                   inputProps={{
                     name: "selectedDatabase",
                     id: "selectedDatabase",
@@ -149,11 +163,11 @@ class CreateGroup extends React.Component {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.closeHandler} color="primary">
+          <Button onClick={props.closeHandler} color="primary">
             Close
           </Button>
           <Button
-            onClick={this.handleSubmit}
+            onClick={handleSubmit}
             color="primary"
             variant="contained"
           >
@@ -163,6 +177,6 @@ class CreateGroup extends React.Component {
       </div>
     );
   }
-}
+
 
 export default CreateGroup;

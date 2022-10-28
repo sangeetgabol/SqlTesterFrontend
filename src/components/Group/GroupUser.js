@@ -16,11 +16,11 @@ const styles = {
   smallButton: { padding: 6 },
 };
 
-export default class GroupUser extends React.Component {
-  handleRemoveUser = () => this.props.removeHandler(this.props.user._id);
+export default function GroupUser (props) {
+ const handleRemoveUser = () => props.removeHandler(props.user._id);
 
-  render() {
-    const { user, dense } = this.props;
+  // render() {
+    const { user, dense } = props;
 
     const {
       username,
@@ -54,7 +54,7 @@ export default class GroupUser extends React.Component {
             <IconButton
               style={(dense && styles.smallButton) || {}}
               color="secondary"
-              onClick={this.handleRemoveUser}
+              onClick={handleRemoveUser}
               aria-label="Remove User from the group"
             >
               <PersonRemoveAlt1OutlinedIcon fontSize="small" />
@@ -64,4 +64,4 @@ export default class GroupUser extends React.Component {
       </ListItem>
     );
   }
-}
+//}

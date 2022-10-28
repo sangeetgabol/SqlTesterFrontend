@@ -10,37 +10,37 @@ import ManageGroup from "./Manage";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
-export default class GroupManager extends React.Component {
-  handleClose = () => this.props.closeHandler();
+export default function GroupManager (props) {
+ const handleClose = () => props.closeHandler();
 
-  render() {
+  // render() {
     const {
       currentGroup,
       loadDatabaseHandler,
       joinGroupHandler,
       leaveGroupHandler,
-    } = this.props;
+    } = props;
 
     const ManageGroupComponent = ({ match }) => (
-      <Dialog onClose={this.handleClose} open fullScreen>
-        <ManageGroup match={match} closeHandler={this.handleClose} />
+      <Dialog onClose={handleClose} open fullScreen>
+        <ManageGroup match={match} closeHandler={handleClose} />
       </Dialog>
     );
 
     const CreateGroupComponent = () => (
-      <Dialog onClose={this.handleClose} open fullWidth>
-        <CreateGroup closeHandler={this.handleClose} />
+      <Dialog onClose={handleClose} open fullWidth>
+        <CreateGroup closeHandler={handleClose} />
       </Dialog>
     );
 
     const GroupListComponent = () => (
-      <Dialog onClose={this.handleClose} open fullWidth>
+      <Dialog onClose={handleClose} open fullWidth>
         <GroupList
           currentGroup={currentGroup}
           joinGroupHandler={joinGroupHandler}
           leaveGroupHandler={leaveGroupHandler}
           loadDatabaseHandler={loadDatabaseHandler}
-          closeHandler={this.handleClose}
+          closeHandler={handleClose}
         />
       </Dialog>
     );
@@ -62,4 +62,4 @@ export default class GroupManager extends React.Component {
       </Router>
     );
   }
-}
+//}
