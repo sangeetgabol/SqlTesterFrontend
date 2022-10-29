@@ -39,49 +39,45 @@ const CustomTooltip = (props) => {
   return null;
 };
 
-export default class BarChartContainer extends React.PureComponent {
-  render() {
-    const { data } = this.props;
+export default function BarChartContainer(props) {
+  // render() {
+  // const { data } = props;
 
-    // Sort the users by completed questions.
-    const sortedUsers = data.sort(
-      (a, b) => a.questionsCompleted < b.questionsCompleted
-    );
-
-    return (
-      <ResponsiveContainer width="99%" height={280}>
-        <BarChart
-          data={sortedUsers}
-          margin={{ right: 20, bottom: 5 }}
-          maxBarSize={10}
+  // Sort the users by completed questions.
+  const sortedUsers = props.data.sort(
+    (a, b) => a.questionsCompleted < b.questionsCompleted
+  );
+  console.log(props.data);
+  return (
+    <ResponsiveContainer width="99%" height={280}>
+      <BarChart
+        data={sortedUsers}
+        margin={{ right: 20, bottom: 5 }}
+        maxBarSize={10}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="username" />
+        <YAxis
+          dataKey="questionsCompleted"
+          type="number"
+          allowDecimals={false}
+          label={{
+            value: "# of Questions Completed",
+            angle: -90,
+            position: "center",
+          }}
+        />
+        <Tooltip content={CustomTooltip} />
+        <Bar
+          name="Question"
+          dataKey="questionsCompleted"
+          isAnimationActive={false}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="username" />
-          <YAxis
-            dataKey="questionsCompleted"
-            type="number"
-            allowDecimals={false}
-            label={{
-              value: "# of Questions Completed",
-              angle: -90,
-              position: "center",
-            }}
-          />
-          <Tooltip content={CustomTooltip} />
-          <Bar
-            name="Question"
-            dataKey="questionsCompleted"
-            isAnimationActive={false}
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={stringToColor(entry.username)}
-              />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    );
-  }
+          {props.data?.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={stringToColor(entry.username)} />
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  );
 }

@@ -26,6 +26,7 @@ function LoggedIn({ logoutHandler, user, joinGroup, leaveGroup }) {
               loadDatabaseHandler={loadDatabase}
               disabled={Boolean(user.group)}
             />
+
             <Group
               loadDatabaseHandler={loadDatabase}
               currentGroup={user && user.group}

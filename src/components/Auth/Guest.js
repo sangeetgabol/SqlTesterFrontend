@@ -22,7 +22,8 @@ function Guest({ loginHandler }) {
 
     try {
       const user = await login(username, password);
-
+      console.log(user);
+      localStorage.setItem("user", JSON.stringify(user));
       return loginHandler(user);
     } catch (response) {
       const error = await response.text();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 
@@ -12,38 +12,37 @@ import ScatterChartContainer from "./ScatterChart";
 import PieChart from "./PieChart";
 import Treemap from "./Treemap";
 
-export default class ChartManager extends React.Component {
-  state = {
-    index: 0
-  };
+export default function ChartManager(props) {
+  // state = {
+  //   index: 0
+  // };
+  const [index, setIndex] = useState(0);
+  const handleChange = (element, value) => setIndex(value);
 
-  handleChange = (element, value) => this.setState({ index: value });
+  // render() {
+  // const { index } = this.state;
 
-  render() {
-    const { index } = this.state;
+  const { questionMetrics, setMetrics, users } = props;
 
-    const { questionMetrics, setMetrics, users } = this.props;
-
-    return (
-      <div>
-        {index === 0 && <BarChart data={users} />}
-        {index === 1 && <ScatterChartContainer data={questionMetrics} />}
-        {index === 2 && <PieChart data={setMetrics} />}
-        {index === 3 && <Treemap data={questionMetrics} />}
-        <Tabs
-          value={this.state.index}
-          onChange={this.handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          scrollButtons="auto"
-          variant="scrollable"
-        >
-          <Tab icon={<BarChartIcon />} />
-          <Tab icon={<ScatterChartIcon />} />
-          <Tab icon={<PieChartIcon />} />
-          <Tab icon={<TreemapIcon />} />
-        </Tabs>
-      </div>
-    );
-  }
+  return (
+    <div>
+      {index === 0 && <BarChart data={users} />}
+      {index === 1 && <ScatterChartContainer data={questionMetrics} />}
+      {index === 2 && <PieChart data={setMetrics} />}
+      {index === 3 && <Treemap data={questionMetrics} />}
+      <Tabs
+        value={this.state.index}
+        onChange={this.handleChange}
+        indicatorColor="primary"
+        textColor="primary"
+        scrollButtons="auto"
+        variant="scrollable"
+      >
+        <Tab icon={<BarChartIcon />} />
+        <Tab icon={<ScatterChartIcon />} />
+        <Tab icon={<PieChartIcon />} />
+        <Tab icon={<TreemapIcon />} />
+      </Tabs>
+    </div>
+  );
 }

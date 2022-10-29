@@ -38,52 +38,51 @@ const CustomTooltip = (props) => {
   return null;
 };
 
-export default class PieChartContainer extends React.Component {
-  render() {
-    const { data } = this.props;
+export default function PieChartContainer(props) {
+  // render() {
+  // const { data } = props;
 
-    return (
-      <ResponsiveContainer width="99%" height={280}>
-        <PieChart margin={{ top: 50, right: 60, left: 60, bottom: 50 }}>
-          <Pie
-            data={data}
-            nameKey="set"
-            dataKey="total"
-            fill="#8884d8"
-            innerRadius="70%"
-            outerRadius="90%"
-            label={CustomLabel}
-            labelLine={false}
-            isAnimationActive={false}
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={index}
-                label="Total Questions"
-                fill={stringToColor(entry.set)}
-              />
-            ))}
-          </Pie>
+  return (
+    <ResponsiveContainer width="99%" height={280}>
+      <PieChart margin={{ top: 50, right: 60, left: 60, bottom: 50 }}>
+        <Pie
+          data={props.data}
+          nameKey="set"
+          dataKey="total"
+          fill="#8884d8"
+          innerRadius="70%"
+          outerRadius="90%"
+          label={CustomLabel}
+          labelLine={false}
+          isAnimationActive={false}
+        >
+          {props.data.map((entry, index) => (
+            <Cell
+              key={index}
+              label="Total Questions"
+              fill={stringToColor(entry.set)}
+            />
+          ))}
+        </Pie>
 
-          <Pie
-            isAnimationActive={false}
-            data={data}
-            nameKey="set"
-            dataKey="completed"
-            fill="#82ca9d"
-            outerRadius="60%"
-          >
-            {data.map((entry, index) => (
-              <Cell
-                key={index}
-                label="Completed Questions"
-                fill={stringToColor(entry.set)}
-              />
-            ))}
-          </Pie>
-          <Tooltip content={CustomTooltip} />
-        </PieChart>
-      </ResponsiveContainer>
-    );
-  }
+        <Pie
+          isAnimationActive={false}
+          data={props.data}
+          nameKey="set"
+          dataKey="completed"
+          fill="#82ca9d"
+          outerRadius="60%"
+        >
+          {props.data?.map((entry, index) => (
+            <Cell
+              key={index}
+              label="Completed Questions"
+              fill={stringToColor(entry.set)}
+            />
+          ))}
+        </Pie>
+        <Tooltip content={CustomTooltip} />
+      </PieChart>
+    </ResponsiveContainer>
+  );
 }

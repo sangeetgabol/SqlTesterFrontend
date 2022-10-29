@@ -42,7 +42,7 @@ function DatabaseInput({ submitHandler, classes }) {
 
   const handleClear = () => setStatement(statement);
 
-  const handleSubmit = () => submitHandler(this.state.statement);
+  const handleSubmit = () => submitHandler(statement);
 
   // render() {
   // const { classes } = this.props;

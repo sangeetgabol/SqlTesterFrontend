@@ -34,7 +34,8 @@ const style = {
   closeButton: { marginRight: 16 },
   flex: { flex: 1 },
 };
-
+let myArray;
+let user = [];
 export default class ManageGroup extends React.Component {
   state = {
     error: null,
@@ -42,7 +43,11 @@ export default class ManageGroup extends React.Component {
   };
 
   componentDidMount() {
-    this.loadGroup();
+    const text = window.location.pathname;
+    myArray = text.split("/");
+    console.log(console.log(myArray));
+    // const { title } = myArray[4];
+    this.loadGroup(myArray);
   }
 
   handleUpdateGroup = async () => {
@@ -69,12 +74,14 @@ export default class ManageGroup extends React.Component {
 
   handleChange = (e) => this.setState({ controlledTitle: e.target.value });
 
-  loadGroup = async () => {
-    const { id } = this.props.match.params;
-
+  loadGroup = async (myArray) => {
+    console.log("d", myArray);
+    const id = myArray[3];
+    // console.log(id);
     try {
       const group = await getGroup(id);
-
+      console.log(group);
+      user = group.users;
       this.setState({ group, controlledTitle: group.title });
     } catch (response) {
       const error = await response.text();
@@ -84,10 +91,11 @@ export default class ManageGroup extends React.Component {
   };
 
   render() {
-    const { title } = this.props.match.params;
-
     const { group, error } = this.state;
-
+    const text = window.location.pathname;
+    myArray = text.split("/");
+    console.log(console.log(myArray));
+    const title = myArray[4];
     const header = (
       <AppBar position="static">
         <Toolbar variant="dense">
@@ -120,7 +128,7 @@ export default class ManageGroup extends React.Component {
       );
     }
 
-    const { users, questionMetrics, setMetrics } = group;
+    const { users, questionMetrics, setMetrics } = this.state.group;
 
     if (error) {
       return (
@@ -152,7 +160,7 @@ export default class ManageGroup extends React.Component {
               </Typography>
               <Paper elevation={2} square>
                 <List dense={users.length >= 5} disablePadding>
-                  {users.map((user) => (
+                  {users?.map((user) => (
                     <GroupUser
                       key={user._id}
                       user={user}
@@ -174,7 +182,7 @@ export default class ManageGroup extends React.Component {
                   >
                     Group members progress
                   </Typography>
-                  <BarChart data={users} />
+                  <BarChart data={user} />
                 </Grid>
                 <Grid item xs={12} sm={6} xl={3}>
                   <Typography

@@ -1,4 +1,4 @@
-import React, { useEffect ,useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import Button from "@material-ui/core/Button";
 
@@ -20,8 +20,7 @@ import clearQuestions from "../../questions/utils/clearQuestions";
 
 const flexSpaceBetween = { display: "flex", justifyContent: "space-between" };
 
-function GroupList (props){
-
+function GroupList(props) {
   const [error, setError] = useState(null);
   const [list, setList] = useState(null);
 
@@ -29,17 +28,17 @@ function GroupList (props){
   //   list: null,
   //   error: null
   // };
-   
-  useEffect(()=>{
+
+  useEffect(() => {
     load();
-  })
+  }, []);
 
   // componentDidMount = () => this.load();
 
   const load = async () => {
     // Attempt to load all the available groups.
     try {
-      const groups = await listGroups();  
+      const groups = await listGroups();
       setList(groups);
       setError(null);
       // this.setState({ list: groups, error: null });
@@ -52,7 +51,7 @@ function GroupList (props){
 
   const handleClose = () => props.closeHandler();
 
-  const handleJoinGroup = async id => {
+  const handleJoinGroup = async (id) => {
     try {
       const group = await joinGroup(id);
 
@@ -70,17 +69,17 @@ function GroupList (props){
 
       // Find the group the user has just joined, and set it as active.
       // This saves pinging the server again to reload the `list` prop.
-      const updatedGroupList = list.map(listGroup => {
+      const updatedGroupList = list.map((listGroup) => {
         // Update the isCurrent for all the groups in the list, leaving the last joined group as the active one.
         listGroup.isCurrent = group._id === listGroup._id;
 
         return listGroup;
       });
-       setList(updatedGroupList);
-       setError(null)
+      setList(updatedGroupList);
+      setError(null);
       // this.setState({ list: updatedGroupList, error: null });
     } catch (response) {
-      const error = await response.text();
+      const error = await response;
 
       this.setState({ error });
 
@@ -90,12 +89,12 @@ function GroupList (props){
     }
   };
 
- const handleLeaveGroup = async () => {
+  const handleLeaveGroup = async () => {
     try {
       await leaveCurrentGroup();
 
       // Update the isCurrent for all the groups in the list to false
-      const updatedGroupList = list.map(listGroup => {
+      const updatedGroupList = list.map((listGroup) => {
         listGroup.isCurrent = false;
 
         return listGroup;
@@ -119,56 +118,57 @@ function GroupList (props){
   // render() {
   //   const { list, error } = this.state;
 
-    return (
-      <React.Fragment>
-        <DialogTitle id="dialog-title">
-          <div style={flexSpaceBetween}>
-            Groups
-            <Button
-              component={Link}
-              to="/group/create"
-              color="primary"
-              variant="contained"
-              size="small"
-            >
-              Create &raquo;
-            </Button>
-          </div>
-        </DialogTitle>
-        {error && (
-          <DialogContent>
-            <DialogContentText color="error" align="center">
-              {error}
-            </DialogContentText>
-          </DialogContent>
-        )}
+  return (
+    <React.Fragment>
+      <DialogTitle id="dialog-title">
+        <div style={flexSpaceBetween}>
+          Groups
+          <Button
+            component={Link}
+            to="/group/create"
+            color="primary"
+            variant="contained"
+            size="small"
+          >
+            Create &raquo;
+          </Button>
+        </div>
+      </DialogTitle>
+      {error && (
         <DialogContent>
-          <DialogContentText>
-            Groups allow you to customize the experience and track the progress
-            of every user that joins your group.
+          <DialogContentText color="error" align="center">
+            {error}
           </DialogContentText>
         </DialogContent>
-        {list && (
-          <List dense={list.length >= 5}>
-            {list.map(group => (
-              <GroupItem
-                key={group._id}
-                group={group}
-                joinGroupHandler={handleJoinGroup}
-                leaveGroupHandler={handleLeaveGroup}
-                dense={list.length >= 5}
-              />
-            ))}
-          </List>
-        )}
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </React.Fragment>
-    );
-  }
+      )}
+      <DialogContent>
+        <DialogContentText>
+          Groups allow you to customize the experience and track the progress of
+          every user that joins your group.
+        </DialogContentText>
+      </DialogContent>
+      {console.log(list)}
+      {list && (
+        <List dense={list.length >= 5}>
+          {list.map((group) => (
+            <GroupItem
+              key={group._id}
+              group={group}
+              joinGroupHandler={handleJoinGroup}
+              leaveGroupHandler={handleLeaveGroup}
+              dense={list.length >= 5}
+            />
+          ))}
+        </List>
+      )}
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Close
+        </Button>
+      </DialogActions>
+    </React.Fragment>
+  );
+}
 //}
 
 export default GroupList;

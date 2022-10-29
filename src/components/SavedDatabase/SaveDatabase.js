@@ -43,11 +43,11 @@ export default function SaveDatabase(props) {
       refreshSavedDatabaseList();
 
       // Redirect back to the database list.
-      return this.props.history.push("/");
+      return props.history.push("/");
     } catch (response) {
-      const error = await response.text();
+      const error = await response;
 
-      this.setState({ error });
+      setError(error);
     }
   };
 
@@ -58,7 +58,7 @@ export default function SaveDatabase(props) {
   // render() {
   // const { title, error } = this.state;
 
-  const { currentSavedDatabaseCount } = this.props;
+  const { currentSavedDatabaseCount } = props;
 
   return (
     <React.Fragment>

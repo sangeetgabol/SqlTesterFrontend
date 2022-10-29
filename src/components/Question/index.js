@@ -298,7 +298,7 @@ class QuestionManager extends React.Component {
                 <Hidden xsDown implementation="css">
                   Skip
                 </Hidden>
-                {/* <KeyboardArrowRightIcon /> */}
+                <KeyboardArrowRightIcon />
               </Button>
 
               <Button

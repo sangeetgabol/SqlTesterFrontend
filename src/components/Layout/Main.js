@@ -17,7 +17,7 @@ import saveQuestions from "../../questions/utils/saveQuestions";
 import InputForm from "../Database/Input";
 
 import { withStyles } from "@material-ui/core/styles";
-
+let userData = "";
 const styles = (theme) => ({
   containerStyle: {
     flexGrow: 1,
@@ -47,15 +47,16 @@ class Main extends React.Component {
     });
 
   componentDidMount() {
+    userData = JSON.parse(localStorage.getItem("user"));
     this.getQuestions();
   }
 
   getQuestions = async () => {
     let allQuestions;
 
-    const { user } = this.props;
+    // const { user } = this.props;
 
-    const group = (user && user.group) || null;
+    const group = (userData && userData.group) || null;
 
     // Has the group already have generated questions.
     // Joining a group SHOULD remove all questions so they are rebuilt with the new group database.
@@ -113,30 +114,36 @@ class Main extends React.Component {
   changeQuestion = (index) => this.setState({ activeQuestionIndex: index });
 
   runQuery = async (sql) => {
-    const { currentDatabase, loadDatabase } = this.props;
+    console.log(this.props);
+    // const { currentDatabase, loadDatabase } = this.props;
 
     const { activeQuestionIndex, allQuestions } = this.state;
 
     let results = [];
 
     try {
-      const output = currentDatabase.exec(sql);
+      const output = this.props.currentDatabase.exec(sql);
+      console.log(output);
 
       // Check if any database actions were ran, if so only update the database.
-      if (currentDatabase.getRowsModified()) {
+      if (this.props.currentDatabase.getRowsModified()) {
         // TODO: Make this function name a saveDatabase()...
-        loadDatabase(currentDatabase);
+        this.props.loadDatabase(this.props.currentDatabase);
       } else {
         results = output;
       }
 
       if (
-        checkAnswer(currentDatabase, sql, allQuestions[activeQuestionIndex])
+        checkAnswer(
+          this.props.currentDatabase,
+          sql,
+          allQuestions[activeQuestionIndex]
+        )
       ) {
         const updatedAllQuestions = await this.completeCurrentQuestion(sql);
-
+        console.log(this.props.user, this.props.user.group);
         // Only save progress if in a group.
-        if (this.props.user && this.props.user.group) {
+        if (userData && userData.group) {
           saveProgress(updatedAllQuestions);
         } else {
           saveQuestions(updatedAllQuestions, this.props.user);
@@ -177,12 +184,12 @@ class Main extends React.Component {
   render() {
     const { allQuestions, activeQuestionIndex, feedback } = this.state;
 
-    const { results, classes } = this.props;
+    // const { results, classes } = this.props;
 
     return (
-      <main className={classes.containerStyle}>
-        <div className={classes.toolbar} />
-        <div className={classes.innerContainerStyle}>
+      <main className={this.props.classes.containerStyle}>
+        <div className={this.props.classes.toolbar} />
+        <div className={this.props.classes.innerContainerStyle}>
           <Section title="Questions">
             {allQuestions && (
               <Question
@@ -197,7 +204,7 @@ class Main extends React.Component {
             <InputForm submitHandler={this.runQuery} />
           </Section>
 
-          {results.map((result, i) => (
+          {this.props.results.map((result, i) => (
             <Section title="Results" key={i} padding="16px">
               <OutputTable columns={result.columns} values={result.values} />
             </Section>

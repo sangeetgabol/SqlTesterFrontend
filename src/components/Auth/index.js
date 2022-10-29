@@ -42,27 +42,27 @@ const Header = (props) => (
         </IconButton>
       </Hidden>
       <Typography variant="h6" color="inherit" noWrap>
-        testSQL
+        TestSQL
       </Typography>
-      {!process.env.REACT_APP_CLIENT_ONLY && (
-        <div className={props.classes.userActionsContainer}>
-          <UserContext.Consumer>
-            {({ user, isLoaded, login, joinGroup, leaveGroup, logout }) =>
-              isLoaded &&
-              (user ? (
-                <LoggedIn
-                  user={user}
-                  joinGroup={joinGroup}
-                  leaveGroup={leaveGroup}
-                  logoutHandler={logout}
-                />
-              ) : (
-                <Guest loginHandler={login} />
-              ))
-            }
-          </UserContext.Consumer>
-        </div>
-      )}
+      {/* {!process.env.REACT_APP_CLIENT_ONLY && ( */}
+      <div className={props.classes.userActionsContainer}>
+        <UserContext.Consumer>
+          {({ user, isLoaded, login, joinGroup, leaveGroup, logout }) =>
+            isLoaded &&
+            (user ? (
+              <LoggedIn
+                user={user}
+                joinGroup={joinGroup}
+                leaveGroup={leaveGroup}
+                logoutHandler={logout}
+              />
+            ) : (
+              <Guest loginHandler={login} />
+            ))
+          }
+        </UserContext.Consumer>
+      </div>
+      {/* )} */}
     </Toolbar>
   </AppBar>
 );

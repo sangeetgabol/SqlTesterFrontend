@@ -1,54 +1,53 @@
-import React, { Suspense } from "react";
-
+import React, { Suspense, useState } from "react";
+import GroupIcon from "@mui/icons-material/Group";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 const LoadableGroupManager = React.lazy(() =>
   import("./GroupManager" /* webpackChunkName: "groups" */)
 );
 
-export default class Group extends React.Component {
-  state = {
-    open: false,
-  };
+export default function Group(props) {
+  // state = {
+  //   open: false,
+  // };
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
 
-  handleOpen = () => this.setState({ open: true });
+  const handleClose = () => setOpen(false);
+  // render() {
+  //   const { open } = this.state;
 
-  handleClose = () => this.setState({ open: false });
+  const {
+    currentGroup,
+    joinGroupHandler,
+    leaveGroupHandler,
+    loadDatabaseHandler,
+  } = props;
 
-  render() {
-    const { open } = this.state;
+  return (
+    <React.Fragment>
+      <Tooltip title="Groups">
+        <IconButton
+          color={currentGroup ? "secondary" : "inherit"}
+          aria-label="Group List"
+          onClick={handleOpen}
+          // onMouseOver={this.handleMouseOver}
+        >
+          <GroupIcon fontSize="small" />
+        </IconButton>
+      </Tooltip>
 
-    const {
-      currentGroup,
-      joinGroupHandler,
-      leaveGroupHandler,
-      loadDatabaseHandler,
-    } = this.props;
-
-    return (
-      <React.Fragment>
-        <Tooltip title="Groups">
-          <IconButton
-            color={currentGroup ? "secondary" : "inherit"}
-            aria-label="Group List"
-            onClick={this.handleOpen}
-            onMouseOver={this.handleMouseOver}
-          >
-            {/* <GroupIcon fontSize="small" /> */}
-          </IconButton>
-        </Tooltip>
-        {open && (
-          <Suspense fallback={<div>Loading...</div>}>
-            <LoadableGroupManager
-              closeHandler={this.handleClose}
-              currentGroup={currentGroup}
-              loadDatabaseHandler={loadDatabaseHandler}
-              joinGroupHandler={joinGroupHandler}
-              leaveGroupHandler={leaveGroupHandler}
-            />
-          </Suspense>
-        )}
-      </React.Fragment>
-    );
-  }
+      {open && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <LoadableGroupManager
+            closeHandler={handleClose}
+            currentGroup={currentGroup}
+            loadDatabaseHandler={loadDatabaseHandler}
+            joinGroupHandler={joinGroupHandler}
+            leaveGroupHandler={leaveGroupHandler}
+          />
+        </Suspense>
+      )}
+    </React.Fragment>
+  );
 }

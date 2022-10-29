@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 
-import List from "@material-ui/core/List";
+import List from "@mui/material/List";
 
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
 
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 
 import { loadDatabase, deleteDatabase } from "./API";
 
 import DatabaseItem from "./DatabaseItem";
 
 import { Link } from "react-router-dom";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 
 const flexSpaceBetween = { display: "flex", justifyContent: "space-between" };
 
@@ -25,7 +25,7 @@ export default function DatabaseList(props) {
   // };
   const [error, setError] = useState(null);
   const handleLoadDatabase = async (id) => {
-    const { loadDatabaseHandler, closeHandler } = this.props;
+    const { loadDatabaseHandler, closeHandler } = props;
 
     let fileBuffer;
 
@@ -39,8 +39,8 @@ export default function DatabaseList(props) {
       return closeHandler();
     } catch (response) {
       const error = await response.text();
-
-      this.setState({ error });
+      setError(error);
+      // this.setState({ error });
     }
   };
 
@@ -51,15 +51,14 @@ export default function DatabaseList(props) {
 
       // Refresh the database list so the newly deleted databases goes.
       // This could be replaced with a client-side removal of the node, if you're a stickler for optimization.
-      return this.props.refreshSavedDatabaseList();
+      return props.refreshSavedDatabaseList();
     } catch (response) {
       const error = await response.text();
-
-      this.setState({ error });
+      setError(error);
     }
   };
 
-  const handleClose = () => this.props.closeHandler();
+  const handleClose = () => props.closeHandler();
 
   // render() {
   // const { error } = this.state;

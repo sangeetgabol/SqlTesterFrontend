@@ -24,28 +24,28 @@ export const createGroup = (title, databaseID) => {
   }).then(handleError);
 };
 
-export const updateGroup = (groupId, title) => {
-  return fetch(`http://localhost:3001/api/group/update/${groupId}`, {
-    method: "POST",
-    body: JSON.stringify({ title }),
-    credentials: "same-origin",
-    headers: new Headers({
-      "Content-Type": "application/json",
-    }),
-  }).then(handleError);
-};
+// export const updateGroup = (groupId, title) => {
+//   return fetch(`http://localhost:3001/api/group/update/${groupId}`, {
+//     method: "POST",
+//     body: JSON.stringify({ title }),
+//     credentials: "same-origin",
+//     headers: new Headers({
+//       "Content-Type": "application/json",
+//     }),
+//   }).then(handleError);
+// };
 
-export const deleteGroup = (id) => {
-  return fetch(`http://localhost:3001/api/group/delete/${id}`, {
-    method: "GET",
-    credentials: "same-origin",
-    headers: new Headers({
-      "Content-Type": "application/json",
-    }),
-  })
-    .then(handleError)
-    .then((res) => res.json());
-};
+// export const deleteGroup = (id) => {
+//   return fetch(`http://localhost:3001/api/group/delete/${id}`, {
+//     method: "GET",
+//     credentials: "same-origin",
+//     headers: new Headers({
+//       "Content-Type": "application/json",
+//     }),
+//   })
+//     .then(handleError)
+//     .then((res) => res.json());
+// };
 
 export const getGroup = (id) => {
   return fetch(`http://localhost:3001/api/group/${id}`, {

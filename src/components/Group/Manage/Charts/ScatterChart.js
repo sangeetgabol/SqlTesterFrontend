@@ -16,13 +16,13 @@ const style = {
   tooltip: {
     padding: ".5rem .75rem",
     backgroundColor: "rgba(255, 255, 255)",
-    border: "2px solid rgba(0, 0, 0)"
-  }
+    border: "2px solid rgba(0, 0, 0)",
+  },
 };
 
-const CustomXTick = label => `Q${label}`;
+const CustomXTick = (label) => `Q${label}`;
 
-const CustomTooltip = props => {
+const CustomTooltip = (props) => {
   if (props.active) {
     const { payload } = props;
 
@@ -45,38 +45,37 @@ const CustomTooltip = props => {
   return null;
 };
 
-export default class ScatterChartContainer extends React.PureComponent {
-  render() {
-    const { data } = this.props;
+export default function ScatterChartContainer(props) {
+  // render() {
+  // const { data } = props;
 
-    return (
-      <ResponsiveContainer width="99%" height={500}>
-        <ScatterChart margin={{ top: 20, right: 20, bottom: 15 }}>
-          <XAxis dataKey="index" tickFormatter={CustomXTick} />
-          <YAxis
-            dataKey="completed"
-            type="number"
-            allowDecimals={false}
-            label={{
-              value: "# of Completed",
-              angle: -90,
-              position: "center"
-            }}
-          />
-          <CartesianGrid />
-          <Tooltip content={CustomTooltip} />
-          <Scatter
-            name="Question"
-            data={data}
-            shape="cross"
-            isAnimationActive={false}
-          >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={stringToColor(entry.title)} />
-            ))}
-          </Scatter>
-        </ScatterChart>
-      </ResponsiveContainer>
-    );
-  }
+  return (
+    <ResponsiveContainer width="99%" height={500}>
+      <ScatterChart margin={{ top: 20, right: 20, bottom: 15 }}>
+        <XAxis dataKey="index" tickFormatter={CustomXTick} />
+        <YAxis
+          dataKey="completed"
+          type="number"
+          allowDecimals={false}
+          label={{
+            value: "# of Completed",
+            angle: -90,
+            position: "center",
+          }}
+        />
+        <CartesianGrid />
+        <Tooltip content={CustomTooltip} />
+        <Scatter
+          name="Question"
+          data={props.data}
+          shape="cross"
+          isAnimationActive={false}
+        >
+          {props.data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={stringToColor(entry.title)} />
+          ))}
+        </Scatter>
+      </ScatterChart>
+    </ResponsiveContainer>
+  );
 }
