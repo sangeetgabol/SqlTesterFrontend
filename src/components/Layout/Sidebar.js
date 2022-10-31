@@ -122,13 +122,13 @@ function Sidebar({
         >
           <div className={classes.toolbar} />
           <div className={classes.gutterTop}>{schema}</div>
-          <h4 style={{ position: "relative", top: "48%", padding: "1rem" }}>
+          <h4 style={{ position: "relative", top: "8%", padding: "1rem" }}>
             Choose Database{" "}
           </h4>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            style={{ position: "relative", top: "45%" }}
+            style={{ position: "relative", top: "5%" }}
             // value={age}
             label="Age"
             onChange={handleUpload}

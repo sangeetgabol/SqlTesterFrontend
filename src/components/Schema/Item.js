@@ -6,9 +6,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 function SchemaItem(props) {
   const handleClick = () => props.showSchemaHandler(props.name);
-
+  // onClick={handleClick} button
   return (
-    <ListItem onClick={handleClick} button>
+    <ListItem>
       <ListItemText primary={props.name} />
       <ListItemSecondaryAction>
         <ListItemText secondary={props.count} />
