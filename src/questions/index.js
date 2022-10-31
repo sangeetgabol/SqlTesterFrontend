@@ -13,7 +13,10 @@ import between from "./between";
 import minMaxAvg from "./minMaxAvg";
 import count from "./count";
 import columnAlias from "./alias";
+import top from "./top";
 
+
+// eslint-disable-next-line import/no-anonymous-default-export
 export default [
   selectAll,
   selectSpecific,
@@ -29,5 +32,6 @@ export default [
   between,
   minMaxAvg,
   count,
-  columnAlias
+  columnAlias,
+  top
 ];
