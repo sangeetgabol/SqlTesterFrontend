@@ -5,8 +5,8 @@ import getRandomInt from "lodash/random";
 
 const minMaxAvg = {
   set: "Intermediate",
-  build: (db, myTable) => {
-    const tables = getTables(db, myTable);
+  build: (db) => {
+    const tables = getTables(db);
 
     const [{ table, column }] = getColumns(db, tables, 1, "INT");
 

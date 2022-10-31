@@ -13,12 +13,12 @@ const buildQuestions = async (database, availableQuestions) =>
         }
 
         const { build } = cur;
-        const table = localStorage.getItem("name");
+        // const table = localStorage.getItem("name");
 
-        console.log(table);
+        // console.log(table);
         // console.log(database);
         try {
-          const { question, answer } = build(database, table);
+          const { question, answer } = build(database);
           // console.log(question);
           // console.log(answer);
           acc.push({ index: i, ...cur, question, answer });

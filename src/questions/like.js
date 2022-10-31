@@ -6,8 +6,8 @@ import getRandomInt from "lodash/random";
 
 const like = {
   set: "Hard",
-  build: (db, myTable) => {
-    const tables = getTables(db, myTable, 3);
+  build: (db) => {
+    const tables = getTables(db, 3);
 
     const [{ table, column }] = getColumns(db, tables, 1, "VARCHAR");
 

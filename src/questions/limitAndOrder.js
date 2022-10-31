@@ -4,11 +4,11 @@ import getColumns from "./utils/getColumns";
 
 const limitAndOrder = {
   set: "Intermediate",
-  build: (db, myTable) => {
+  build: (db) => {
     // Get a random limit number between 5-10
     const randomInt = getRandomInt(5, 10);
 
-    const tables = getTables(db, myTable);
+    const tables = getTables(db);
 
     const [{ table, column: column_1 }] = getColumns(db, tables, 1, "INTEGER");
 

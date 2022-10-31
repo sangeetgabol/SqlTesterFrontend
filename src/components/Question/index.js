@@ -274,7 +274,7 @@ class QuestionManager extends React.Component {
                 </Select>
               </div>
             )}
-            {/* <div>
+            <div>
               <Button
                 className={classes.previousButton}
                 variant="contained"
@@ -315,7 +315,7 @@ class QuestionManager extends React.Component {
                 </Hidden>
                 <KeyboardArrowRightIcon />
               </Button>
-            </div> */}
+            </div>
           </div>
         </div>
       </React.Fragment>

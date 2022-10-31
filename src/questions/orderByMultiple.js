@@ -3,8 +3,8 @@ import getColumns from "./utils/getColumns";
 
 const orderByMultiple = {
   set: "Intermediate",
-  build: (db, myTable) => {
-    const tables = getTables(db, myTable);
+  build: (db) => {
+    const tables = getTables(db);
 
     const [{ table, column: column_1 }, { column: column_2 }] = getColumns(
       db,

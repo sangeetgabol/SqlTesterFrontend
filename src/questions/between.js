@@ -5,8 +5,8 @@ import getRows from "./utils/getRows";
 const between = {
   // title: "Between clause",
   set: "Hard",
-  build: (db, myTable) => {
-    const tables = getTables(db, myTable, 1);
+  build: (db) => {
+    const tables = getTables(db, 1);
 
     const [{ table, column }] = getColumns(db, tables, 1, "INT");
 

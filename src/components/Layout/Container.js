@@ -29,12 +29,12 @@ export default function Container({
 
   const displaySchema = async (name) => {
     // const { currentDatabase } = this.props;
-    console.log(name);
-    localStorage.removeItem("__testSQL_Questions__");
-    localStorage.setItem("name", name);
-    const allQuestions = await buildQuestions(currentDatabase);
-    saveQuestions(allQuestions);
-    window.location.reload();
+    // console.log(name);
+    // localStorage.removeItem("__testSQL_Questions__");
+    // localStorage.setItem("name", name);
+    // const allQuestions = await buildQuestions(currentDatabase);
+    // saveQuestions(allQuestions);
+    // window.location.reload();
     const results = currentDatabase.exec(`SELECT * FROM ${name} LIMIT 10`);
     console.log(results);
     handleUpdateResults(results);

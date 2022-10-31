@@ -5,8 +5,8 @@ import getRows from "./utils/getRows";
 const basicWhere = {
   set: "Easy",
   // title: "Basic WHERE clause",
-  build: (db, myTable) => {
-    const tables = getTables(db, myTable);
+  build: (db) => {
+    const tables = getTables(db);
 
     const [
       { table, column: column_1 },
