@@ -1,13 +1,14 @@
 import sampleSize from "lodash/sampleSize";
 
-const getTables = (db, x = null) => {
+const getTables = (db, table, x = null) => {
   // If no cache currently exists, populate one.
   if (Object.keys(window.questionCache).length === 0) {
     const [{ values: tables }] = db.exec(
       `SELECT "tbl_name" FROM "sqlite_master" WHERE "type" = 'table' AND "tbl_name" != "ts-questions"`
     );
 
-    tables.forEach(([table]) => (window.questionCache[table] = []));
+    // tables.forEach(([table]) => (window.questionCache[table] = []));
+    window.questionCache[table] = [];
   }
 
   const tableArray = Object.keys(window.questionCache);

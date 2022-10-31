@@ -6,8 +6,8 @@ import getRandomInt from "lodash/random";
 
 const like = {
   set: "Hard",
-  build: db => {
-    const tables = getTables(db, 3);
+  build: (db, myTable) => {
+    const tables = getTables(db, myTable, 3);
 
     const [{ table, column }] = getColumns(db, tables, 1, "VARCHAR");
 
@@ -49,9 +49,9 @@ const like = {
 
     return {
       question,
-      answer
+      answer,
     };
-  }
+  },
 };
 
 export default like;

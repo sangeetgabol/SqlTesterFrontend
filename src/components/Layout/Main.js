@@ -48,6 +48,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     userData = JSON.parse(localStorage.getItem("user"));
+
     this.getQuestions();
   }
 
@@ -105,7 +106,10 @@ class Main extends React.Component {
       prevProps.currentDatabase &&
       prevProps.currentDatabase.filename !==
         this.props.currentDatabase.filename;
-
+    const allQuestions = JSON.parse(
+      localStorage.getItem("__testSQL_Questions__")
+    );
+    // this.setState({ allQuestions });
     if (hasLeftGroup || hasDatabaseChanged) {
       this.getQuestions();
     }

@@ -21,6 +21,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import Select from "@material-ui/core/Select";
 import Hidden from "@material-ui/core/Hidden";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 const styles = (theme) => ({
   innerPadding: {
@@ -144,7 +145,7 @@ class QuestionManager extends React.Component {
   handleNext = () => {
     const activeQuestionIndex =
       this.props.allQuestions[this.props.activeQuestionIndex].index;
-
+    console.log("hhhh");
     const next =
       (activeQuestionIndex + 1) % this.state.activeQuestionSet.length;
 
@@ -273,7 +274,7 @@ class QuestionManager extends React.Component {
                 </Select>
               </div>
             )}
-            <div>
+            {/* <div>
               <Button
                 className={classes.previousButton}
                 variant="contained"
@@ -314,7 +315,7 @@ class QuestionManager extends React.Component {
                 </Hidden>
                 <KeyboardArrowRightIcon />
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </React.Fragment>

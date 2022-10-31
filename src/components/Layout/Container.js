@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 import Main from "./Main";
 import Sidebar from "./Sidebar";
-
+import buildQuestions from "../../questions/utils/buildQuestions";
 import UserContext from "../Auth/Context";
-
+import saveQuestions from "../../questions/utils/saveQuestions";
 const containerStyle = {
   display: "flex",
   flexDirection: "row",
@@ -27,11 +27,16 @@ export default function Container({
     setResult(results);
   };
 
-  const displaySchema = (name) => {
+  const displaySchema = async (name) => {
     // const { currentDatabase } = this.props;
-
+    console.log(name);
+    localStorage.removeItem("__testSQL_Questions__");
+    localStorage.setItem("name", name);
+    const allQuestions = await buildQuestions(currentDatabase);
+    saveQuestions(allQuestions);
+    window.location.reload();
     const results = currentDatabase.exec(`SELECT * FROM ${name} LIMIT 10`);
-
+    console.log(results);
     handleUpdateResults(results);
 
     return sidebarToggleHandler();

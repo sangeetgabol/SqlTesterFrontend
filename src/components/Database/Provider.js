@@ -17,6 +17,7 @@ import file from "../../sql-wasm.wasm";
 
 export default class Provider extends React.Component {
   loadDatabase = async (typedArray) => {
+    console.log("again");
     const SQL = await initSqlJs({
       locateFile: () => file,
     });

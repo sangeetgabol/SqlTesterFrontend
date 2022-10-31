@@ -9,7 +9,7 @@ import UserContext from "../Auth/Context";
 
 const displayNone = { display: "none" };
 
-function UploadDatabase() {
+function UploadDatabase(props) {
   const handleUpload = (e) => {
     const files = e.target.files;
 
@@ -25,7 +25,7 @@ function UploadDatabase() {
       const typedArray = new Uint8Array(fileReader.result);
 
       // Run the submit handler from the parent component
-      this.props.uploadDatabaseHandler(typedArray);
+      props.uploadDatabaseHandler(typedArray);
     };
 
     // Tell the file reader to read the selected file as an array buffer

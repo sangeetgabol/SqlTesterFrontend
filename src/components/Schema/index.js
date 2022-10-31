@@ -8,7 +8,7 @@ import SchemaItem from "./Item";
 
 class Schema extends React.Component {
   state = {
-    schema: null
+    schema: null,
   };
 
   componentDidMount() {
@@ -45,13 +45,13 @@ class Schema extends React.Component {
       // Expensive operation!
       const [
         {
-          values: [[count]]
-        }
+          values: [[count]],
+        },
       ] = this.props.currentDatabase.exec(`SELECT COUNT(*) FROM ${tableName}`);
 
       return {
         name: tableName,
-        count
+        count,
       };
     });
 

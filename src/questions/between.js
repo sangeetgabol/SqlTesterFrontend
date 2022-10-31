@@ -3,10 +3,10 @@ import getColumns from "./utils/getColumns";
 import getRows from "./utils/getRows";
 
 const between = {
-  title: "Between clause",
+  // title: "Between clause",
   set: "Hard",
-  build: db => {
-    const tables = getTables(db, 1);
+  build: (db, myTable) => {
+    const tables = getTables(db, myTable, 1);
 
     const [{ table, column }] = getColumns(db, tables, 1, "INT");
 
@@ -23,9 +23,9 @@ const between = {
 
     return {
       question,
-      answer
+      answer,
     };
-  }
+  },
 };
 
 export default between;

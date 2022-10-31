@@ -1,9 +1,9 @@
-import React , { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-import SnackBar from "@material-ui/core/Snackbar";
-import SnackBarContent from "@material-ui/core/SnackbarContent";
+import SnackBar from "@mui/material/Snackbar";
+import SnackBarContent from "@mui/material/SnackbarContent";
 
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
@@ -12,8 +12,8 @@ import InfoIcon from "@mui/icons-material/Info";
 import WarningIcon from "@mui/icons-material/Warning";
 import { withStyles } from "@material-ui/core/styles";
 
-import green from "@material-ui/core/colors/green";
-import amber from "@material-ui/core/colors/amber";
+import green from "@mui/material/colors/green";
+import amber from "@mui/material/colors/amber";
 
 import classNames from "classnames";
 
@@ -50,58 +50,71 @@ const style = (theme) => ({
   },
 });
 
-let queue = [];
+class Feedback extends React.Component {
+  queue = [];
 
-function Feedback ({timestamp,message,variant,classes}) {
-  const [Message, setMessage] = useState(null);
-  const [Variant, setVariant] = useState(null);
-  const [timeStamp, setTimestamp] = useState(null);
-  const [open, setOpen] = useState(false);
+  state = {
+    message: null,
+    variant: null,
+    timestamp: null,
+    open: false,
+  };
 
-  useEffect((prevProps)=>{   if (
-    !timestamp ||
-    (typeof timestamp !== "undefined" &&
-      timestamp === prevProps.timestamp)
-  ) {
-    return;
-  }
-     queue.push({
-      message: message,
-      variant: variant,
-      timestamp: timestamp,
+  componentDidUpdate(prevProps) {
+    // Skip if no feedback object is passed OR is the same as the previous object.
+    if (
+      !this.props.timestamp ||
+      (typeof prevProps.timestamp !== "undefined" &&
+        this.props.timestamp === prevProps.timestamp)
+    ) {
+      return;
+    }
+
+    // If a new feedback object is passed, and isn't the same as the previous object injected
+    this.queue.push({
+      message: this.props.message,
+      variant: this.props.variant,
+      timestamp: this.props.timestamp,
     });
 
-    if (open) {
+    if (this.state.open) {
       // immediately begin dismissing current message
       // to start showing new one
-      return setOpen(false)
+      return this.setState({ open: false });
     } else {
-      return processQueue();
+      return this.processQueue();
     }
-   }, [])
+  }
 
-
- const handleClose = (event, reason) => {
+  handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setOpen(false)
+
+    this.setState({ open: false });
   };
 
-  const processQueue = () => {
-    if (queue.length > 0) {
-      const { message, variant, timestamp } = queue.shift();
-      setMessage(message)
-      setVariant(variant)
-      setTimestamp(timestamp)
-      setOpen(true)
+  processQueue = () => {
+    if (this.queue.length > 0) {
+      const { message, variant, timestamp } = this.queue.shift();
+
+      this.setState({
+        message,
+        variant,
+        timestamp,
+        open: true,
+      });
     }
   };
 
-  const handleExited = () => processQueue();
+  handleExited = () => this.processQueue();
 
-  
-  // Return nothing if no message is set yet.
+  render() {
+    const { classes } = this.props;
+
+    const { message, variant, timestamp, open } = this.state;
+
+    // Return nothing if no message is set yet.
     if (!message) return null;
 
     const Icon = variantIcon[variant];
@@ -115,8 +128,8 @@ function Feedback ({timestamp,message,variant,classes}) {
         }}
         open={open}
         autoHideDuration={5000}
-        onClose={handleClose}
-        onExited={handleExited}
+        onClose={this.handleClose}
+        onExited={this.handleExited}
       >
         <SnackBarContent
           className={classes[variant]}
@@ -132,7 +145,7 @@ function Feedback ({timestamp,message,variant,classes}) {
               key="close"
               aria-label="Dismiss"
               size="small"
-              onClick={handleClose}
+              onClick={this.handleClose}
             >
               Dismiss
             </Button>
@@ -141,6 +154,6 @@ function Feedback ({timestamp,message,variant,classes}) {
       </SnackBar>
     );
   }
-
+}
 
 export default withStyles(style)(Feedback);

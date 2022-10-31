@@ -6,8 +6,8 @@ import getRandomConjunction from "./utils/getRandomConjunction";
 
 const whereConjunction = {
   set: "Easy",
-  build: db => {
-    const tables = getTables(db);
+  build: (db, myTable) => {
+    const tables = getTables(db, myTable);
 
     const [{ table, column: column_1 }, { column: column_2 }] = getColumns(
       db,
@@ -23,9 +23,9 @@ const whereConjunction = {
 
     return {
       question: `Display the **${table}** where **${column_1}** is **${row_1}** ${operator_text} **${column_2}** is **${row_2}**`,
-      answer: `SELECT * FROM ${table} WHERE ${column_1} = "${row_1}" ${operator_code} ${column_2} = "${row_2}"`
+      answer: `SELECT * FROM ${table} WHERE ${column_1} = "${row_1}" ${operator_code} ${column_2} = "${row_2}"`,
     };
-  }
+  },
 };
 
 export default whereConjunction;

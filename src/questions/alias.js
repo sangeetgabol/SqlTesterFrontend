@@ -4,8 +4,8 @@ import getColumns from "./utils/getColumns";
 const columnAlias = {
   set: "Intermediate",
   title: "Basic WHERE clause",
-  build: db => {
-    const tables = getTables(db);
+  build: (db, myTable) => {
+    const tables = getTables(db, myTable);
 
     const [{ table, column: column_1 }, { column: column_2 }] = getColumns(
       db,
@@ -28,9 +28,9 @@ const columnAlias = {
 
     return {
       question: `Select the columns ${column_1} and ${column_2} assigning them the following aliases: **${alias_1}** and **${alias_2}**, _respectively_.`,
-      answer: `SELECT ${column_1} AS "${alias_1}", ${column_2} AS "${alias_2}" FROM ${table}`
+      answer: `SELECT ${column_1} AS "${alias_1}", ${column_2} AS "${alias_2}" FROM ${table}`,
     };
-  }
+  },
 };
 
 export default columnAlias;
