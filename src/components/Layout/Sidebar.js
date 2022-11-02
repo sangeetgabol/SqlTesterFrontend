@@ -73,20 +73,17 @@ function Sidebar({
       <DownloadDatabase currentDatabase={currentDatabase} />
     </div>
   );
+  let typedArray;
   const handleUpload = async (event) => {
-    const data = event.target.value;
-    console.log(data);
-    const SQL = await initSqlJs({
-      locateFile: () => file,
-    });
-    console.log(SQL);
-    // Create a new SQL object
-    const database = new SQL.Database(data);
+    let defaultDatabase = event.target.value;
 
-    database.lastModified = Date.now();
-
-    // Save the database in the cache, for persistence without reliance of the server.
+    console.log(defaultDatabase);
+    // defaultDatabase = defaultDatabase;
+    console.log(defaultDatabase);
+    const database = await getDatabase(defaultDatabase);
+    console.log(database);
     uploadDatabaseHandler(database);
+    // window.location.reload();
   };
   useEffect(() => {
     listDatabases().then((list) => setList(list));
@@ -133,6 +130,7 @@ function Sidebar({
             label="Age"
             onChange={handleUpload}
           >
+            <MenuItem>Choose Database</MenuItem>
             {list?.map((item) => (
               <MenuItem value={item.path}>{item.title}</MenuItem>
             ))}

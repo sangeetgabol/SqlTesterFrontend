@@ -33,6 +33,7 @@ function UploadDatabase(props) {
 
     // Reset the import back to blank so in theory could re-upload the same file
     e.target.value = "";
+    window.location.reload();
   };
 
   // render() {

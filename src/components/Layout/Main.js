@@ -147,10 +147,11 @@ class Main extends React.Component {
         const updatedAllQuestions = await this.completeCurrentQuestion(sql);
         console.log(this.props.user, this.props.user.group);
         // Only save progress if in a group.
-        if (userData && userData.group) {
+        if (userData) {
           saveProgress(updatedAllQuestions);
         } else {
           saveQuestions(updatedAllQuestions, this.props.user);
+          saveProgress(updatedAllQuestions);
         }
       }
     } catch (Error) {

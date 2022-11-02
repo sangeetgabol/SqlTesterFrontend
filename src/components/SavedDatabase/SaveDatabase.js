@@ -33,17 +33,17 @@ export default function SaveDatabase(props) {
 
     // Export the current database into a array buffer.
     const database = currentDatabase.export();
-
+    // const database = localStorage.getItem("__testSQL_Database__");
     // Try to save the database on the server.
+    console.log(database);
     try {
       await saveDatabase(title, database);
 
       // Refresh the database list so the newly deleted databases goes.
       // This could be replaced with a client-side removal of the node, if you're a stickler for optimization.
       refreshSavedDatabaseList();
-
+      window.location.reload();
       // Redirect back to the database list.
-      return props.history.push("/");
     } catch (response) {
       const error = await response;
 

@@ -18,8 +18,10 @@ export default function DatabaseManager(props) {
   useEffect(() => {
     refreshSavedDatabaseList();
   }, []);
-  const refreshSavedDatabaseList = () =>
+  const refreshSavedDatabaseList = () => {
     listDatabases().then((list) => setList(list));
+    // window.location.reload();
+  };
 
   const handleClose = () => props.closeHandler();
 

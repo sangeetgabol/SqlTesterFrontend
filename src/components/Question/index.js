@@ -60,6 +60,8 @@ class QuestionManager extends React.Component {
     allSetNames: [],
     activeSet: null,
     activeQuestionSet: null,
+    countNext: 0,
+    countPrev: 0,
   };
 
   componentDidMount() {
@@ -75,11 +77,12 @@ class QuestionManager extends React.Component {
     const activeQuestionSet = [
       ...allQuestions.filter((question) => question.set === activeSet),
     ];
-
+    const countPrev = 0;
     this.setState({
       allSetNames,
       activeSet,
       activeQuestionSet,
+      countPrev,
     });
   }
 
@@ -87,6 +90,7 @@ class QuestionManager extends React.Component {
    * Required to update the "active question set".
    * The props passed is the full question set.
    */
+
   componentDidUpdate = (prevProps) => {
     const { allQuestions, activeQuestionIndex } = this.props;
 
@@ -145,14 +149,22 @@ class QuestionManager extends React.Component {
   handleNext = () => {
     const activeQuestionIndex =
       this.props.allQuestions[this.props.activeQuestionIndex].index;
-    console.log("hhhh");
-    const next =
-      (activeQuestionIndex + 1) % this.state.activeQuestionSet.length;
+    console.log("active index", activeQuestionIndex);
+    console.log("total data", this.state.activeQuestionSet.length);
 
+    const next = activeQuestionIndex + 1;
+    console.log("current value", next);
+    // % this.state.activeQuestionSet.length;.
     // Translate the prev index of the active set to allQuestions.
-    const allQuestionsIndex = this.state.activeQuestionSet[next].index;
+    const allQuestionsIndex = next;
+    // this.state.activeQuestionSet[next].index;
 
+    console.log("final index", allQuestionsIndex);
     this.props.changeQuestionHandler(allQuestionsIndex);
+    this.setState({
+      countPrev: this.state.countPrev + 1,
+      countNext: this.state.countNext + 1,
+    });
   };
 
   handlePrev = () => {
@@ -166,9 +178,14 @@ class QuestionManager extends React.Component {
       prevIndex < 0 ? this.state.activeQuestionSet.length - 1 : prevIndex;
 
     // Translate the prev index of the active set to allQuestions.
-    const allQuestionsIndex = this.state.activeQuestionSet[prev].index;
+    const allQuestionsIndex = prevIndex;
+    //  this.state.activeQuestionSet[prev].index;
 
     this.props.changeQuestionHandler(allQuestionsIndex);
+    this.setState({
+      countPrev: this.state.countPrev - 1,
+      countNext: this.state.countNext - 1,
+    });
   };
 
   handleQuestionChange = (index) => () => {
@@ -177,7 +194,7 @@ class QuestionManager extends React.Component {
 
   handleSetChange = (event) => {
     const set = event.target.value;
-
+    console.log(set);
     // Don't do anything if nothing has changed.
     if (set === this.state.activeSet) return;
 
@@ -187,7 +204,7 @@ class QuestionManager extends React.Component {
     const activeQuestionSet = [
       ...allQuestions.filter((question) => question.set === set),
     ];
-
+    console.log(activeQuestionSet);
     // Set doesn't exist...
     if (activeQuestionSet.length === 0) return;
 
@@ -195,10 +212,14 @@ class QuestionManager extends React.Component {
     this.props.changeQuestionHandler(activeQuestionSet[0].index);
 
     const activeSet = set;
-
+    const countNext = 0;
+    const countPrev = 0;
+    console.log(activeSet);
     this.setState({
       activeSet,
       activeQuestionSet,
+      countPrev,
+      countNext,
     });
   };
 
@@ -215,6 +236,7 @@ class QuestionManager extends React.Component {
     const activeQuestion = allQuestions[activeQuestionIndex];
 
     const activeStep = activeQuestionSet.indexOf(activeQuestion);
+    console.log("active", activeStep);
 
     return (
       <React.Fragment>
@@ -275,10 +297,12 @@ class QuestionManager extends React.Component {
               </div>
             )}
             <div>
+              {console.log("countPrev", this.state.countPrev)}
               <Button
                 className={classes.previousButton}
                 variant="contained"
                 size="small"
+                disabled={this.state.countPrev === 0 ? true : false}
                 aria-label="Previous question"
                 onClick={this.handlePrev}
               >
@@ -287,6 +311,8 @@ class QuestionManager extends React.Component {
                   Previous
                 </Hidden>
               </Button>
+              {console.log("countnext", this.state.countNext)}
+              {console.log("totalQues", this.state.activeQuestionSet.length)}
               <Button
                 className={classes.SkipButton}
                 variant="contained"
@@ -294,6 +320,12 @@ class QuestionManager extends React.Component {
                 color="primary"
                 aria-label="Next question"
                 onClick={this.handleNext}
+                disabled={
+                  this.state.countNext ===
+                  this.state.activeQuestionSet.length - 1
+                    ? true
+                    : false
+                }
                 // style={{ marginRight: "1rem" }}
               >
                 <Hidden xsDown implementation="css">
@@ -308,6 +340,12 @@ class QuestionManager extends React.Component {
                 size="small"
                 color="primary"
                 aria-label="Next question"
+                disabled={
+                  this.state.countNext ===
+                  this.state.activeQuestionSet.length - 1
+                    ? true
+                    : false
+                }
                 onClick={this.handleNext}
               >
                 <Hidden xsDown implementation="css">

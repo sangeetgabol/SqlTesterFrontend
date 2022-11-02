@@ -15,7 +15,6 @@ import count from "./count";
 import columnAlias from "./alias";
 import top from "./top";
 
-
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
   selectAll,
@@ -28,10 +27,10 @@ export default [
   orderByMultiple,
   selectNull,
   limitAndOrder,
-  like,
-  between,
   minMaxAvg,
   count,
   columnAlias,
-  top
+  between,
+  like,
+  top,
 ];

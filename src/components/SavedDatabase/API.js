@@ -1,10 +1,12 @@
 import handleError from "../../utils/handleError";
 
 export const saveDatabase = (title, database) => {
+  console.log(database);
   const blob = new Blob([database], {
     type: `application/x-sqlite-3`,
   });
 
+  console.log(blob);
   const data = new FormData();
 
   data.set("database", blob);

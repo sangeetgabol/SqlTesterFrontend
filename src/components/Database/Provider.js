@@ -17,16 +17,16 @@ import file from "../../sql-wasm.wasm";
 
 export default class Provider extends React.Component {
   loadDatabase = async (typedArray) => {
-    console.log("again");
+    console.log("again", typedArray);
     const SQL = await initSqlJs({
       locateFile: () => file,
     });
     console.log(SQL);
     // Create a new SQL object
     const database = new SQL.Database(typedArray);
-
+    console.log(database);
     database.lastModified = Date.now();
-
+    // localStorage.setItem("__testSQL_Database__", database);
     // Save the database in the cache, for persistence without reliance of the server.
     saveDatabase(database);
 
@@ -40,7 +40,7 @@ export default class Provider extends React.Component {
 
   async componentDidMount() {
     // Get a database from "somewhere"; localStorage or the default server-side.
-    const database = await getDatabase();
+    const database = await getDatabase("");
 
     this.loadDatabase(database);
   }
