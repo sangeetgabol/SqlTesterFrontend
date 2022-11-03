@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import MenuItem from "@mui/material/MenuItem";
-
+// import nae from "../../../../sqltester-backend/saves/";
 import initSqlJs from "sql.js";
 import file from "../../sql-wasm.wasm";
 import Select from "@mui/material/Select";
@@ -73,16 +73,18 @@ function Sidebar({
       <DownloadDatabase currentDatabase={currentDatabase} />
     </div>
   );
-  let typedArray;
+
   const handleUpload = async (event) => {
     let defaultDatabase = event.target.value;
+    // defaultDatabase = nae + defaultDatabase;
+    let typedArray;
 
-    console.log(defaultDatabase);
-    // defaultDatabase = defaultDatabase;
-    console.log(defaultDatabase);
-    const database = await getDatabase(defaultDatabase);
-    console.log(database);
-    uploadDatabaseHandler(database);
+    await fetch(defaultDatabase)
+      .then((res) => res.arrayBuffer())
+      .then((arrayBuffer) => {
+        typedArray = new Uint8Array(arrayBuffer);
+      });
+    console.log(typedArray);
     // window.location.reload();
   };
   useEffect(() => {
@@ -120,7 +122,7 @@ function Sidebar({
           <div className={classes.toolbar} />
           <div className={classes.gutterTop}>{schema}</div>
           <h4 style={{ position: "relative", top: "8%", padding: "1rem" }}>
-            Choose Database{" "}
+            List of Databases{" "}
           </h4>
           <Select
             labelId="demo-simple-select-label"
@@ -128,9 +130,9 @@ function Sidebar({
             style={{ position: "relative", top: "5%" }}
             // value={age}
             label="Age"
-            onChange={handleUpload}
+            // onChange={handleUpload}
           >
-            <MenuItem>Choose Database</MenuItem>
+            <MenuItem>List Of Database</MenuItem>
             {list?.map((item) => (
               <MenuItem value={item.path}>{item.title}</MenuItem>
             ))}
