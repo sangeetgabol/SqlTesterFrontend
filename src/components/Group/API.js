@@ -1,7 +1,9 @@
 import handleError from "../../utils/handleError";
 
+const API_BASEURL =
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
 export const saveProgress = (allQuestions) => {
-  return fetch("http://localhost:3001/api/group/save-progress", {
+  return fetch(`${API_BASEURL}/api/group/save-progress`, {
     method: "POST",
     body: JSON.stringify({ questions: allQuestions }),
     credentials: "same-origin",
@@ -14,7 +16,7 @@ export const saveProgress = (allQuestions) => {
 export const createGroup = (title, databaseID) => {
   const data = { title, databaseID };
 
-  return fetch("http://localhost:3001/api/group/create", {
+  return fetch(`${API_BASEURL}/api/group/create`, {
     method: "POST",
     body: JSON.stringify(data),
     credentials: "same-origin",
@@ -48,7 +50,7 @@ export const createGroup = (title, databaseID) => {
 // };
 
 export const getGroup = (id) => {
-  return fetch(`http://localhost:3001/api/group/${id}`, {
+  return fetch(`${API_BASEURL}/api/group/${id}`, {
     method: "GET",
     credentials: "same-origin",
     headers: new Headers({
@@ -60,7 +62,7 @@ export const getGroup = (id) => {
 };
 
 export const removeUserFromGroup = (groupId, userId) => {
-  return fetch(`http://localhost:3001/api/group/${groupId}/remove/${userId}`, {
+  return fetch(`${API_BASEURL}/api/group/${groupId}/remove/${userId}`, {
     method: "GET",
     credentials: "same-origin",
     headers: new Headers({
@@ -70,7 +72,7 @@ export const removeUserFromGroup = (groupId, userId) => {
 };
 
 export const listGroups = () => {
-  return fetch("http://localhost:3001/api/group/list/all", {
+  return fetch(`${API_BASEURL}/api/group/list/all`, {
     method: "GET",
     credentials: "same-origin",
     headers: new Headers({
@@ -82,7 +84,7 @@ export const listGroups = () => {
 };
 
 export const joinGroup = (id) => {
-  return fetch(`http://localhost:3001/api/group/join/${id}`, {
+  return fetch(`${API_BASEURL}/api/group/join/${id}`, {
     method: "GET",
     credentials: "same-origin",
     headers: new Headers({
@@ -94,7 +96,7 @@ export const joinGroup = (id) => {
 };
 
 export const leaveCurrentGroup = () => {
-  return fetch(`http://localhost:3001/api/group/leave/current`, {
+  return fetch(`${API_BASEURL}/api/group/leave/current`, {
     method: "GET",
     credentials: "same-origin",
     headers: new Headers({

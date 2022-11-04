@@ -1,5 +1,6 @@
 import handleError from "../../utils/handleError";
-
+const API_BASEURL =
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:4000";
 export const saveDatabase = (title, database) => {
   console.log(database);
   const blob = new Blob([database], {
@@ -11,7 +12,7 @@ export const saveDatabase = (title, database) => {
 
   data.set("database", blob);
 
-  return fetch(`http://localhost:3001/api/database/save/${title}`, {
+  return fetch(`${API_BASEURL}/api/database/save/${title}`, {
     method: "POST",
     body: data,
     credentials: "same-origin",
@@ -21,7 +22,7 @@ export const saveDatabase = (title, database) => {
 };
 
 export const loadDatabase = (id) => {
-  return fetch(`http://localhost:3001/api/database/load/${id}`, {
+  return fetch(`${API_BASEURL}/api/database/load/${id}`, {
     method: "GET",
     credentials: "same-origin",
   })
@@ -30,14 +31,14 @@ export const loadDatabase = (id) => {
 };
 
 export const deleteDatabase = (id) => {
-  return fetch(`http://localhost:3001/api/database/delete/${id}`, {
+  return fetch(`${API_BASEURL}/api/database/delete/${id}`, {
     method: "GET",
     credentials: "same-origin",
   }).then(handleError);
 };
 
 export const listDatabases = () => {
-  return fetch("http://localhost:3001/api/database/list", {
+  return fetch(`${API_BASEURL}/api/database/list`, {
     method: "GET",
     credentials: "same-origin",
     headers: new Headers({
