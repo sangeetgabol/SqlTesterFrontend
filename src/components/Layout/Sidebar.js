@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import MenuItem from "@mui/material/MenuItem";
 // import nae from "../../../../sqltester-backend/saves/";
-import initSqlJs from "sql.js";
-import file from "../../sql-wasm.wasm";
-import Select from "@mui/material/Select";
-import Schema from "../Schema";
-import UploadDatabase from "../Database/Upload";
-import DownloadDatabase from "../Database/Download";
-import getDatabase from "../Database/utils/getDatabase";
 import { withStyles } from "@material-ui/core/styles";
+import Select from "@mui/material/Select";
+import DownloadDatabase from "../Database/Download";
+import UploadDatabase from "../Database/Upload";
 import { listDatabases } from "../SavedDatabase/API";
+import Schema from "../Schema";
 const styles = (theme) => ({
   drawerDocked: {
     height: "100%",
@@ -74,19 +71,19 @@ function Sidebar({
     </div>
   );
 
-  const handleUpload = async (event) => {
-    let defaultDatabase = event.target.value;
-    // defaultDatabase = nae + defaultDatabase;
-    let typedArray;
+  // const handleUpload = async (event) => {
+  //   let defaultDatabase = event.target.value;
+  //   // defaultDatabase = nae + defaultDatabase;
+  //   let typedArray;
 
-    await fetch(defaultDatabase)
-      .then((res) => res.arrayBuffer())
-      .then((arrayBuffer) => {
-        typedArray = new Uint8Array(arrayBuffer);
-      });
-    console.log(typedArray);
-    // window.location.reload();
-  };
+  //   await fetch(defaultDatabase)
+  //     .then((res) => res.arrayBuffer())
+  //     .then((arrayBuffer) => {
+  //       typedArray = new Uint8Array(arrayBuffer);
+  //     });
+  //   console.log(typedArray);
+  //   // window.location.reload();
+  // };
   useEffect(() => {
     listDatabases().then((list) => setList(list));
   }, []);
