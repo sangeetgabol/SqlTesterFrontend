@@ -40,7 +40,7 @@ function DatabaseInput({ submitHandler, classes }) {
   const [statement, setStatement] = useState("");
   const handleChange = (statement) => setStatement(statement);
 
-  const handleClear = () => setStatement(statement);
+  const handleClear = () => setStatement("");
 
   const handleSubmit = () => submitHandler(statement);
 

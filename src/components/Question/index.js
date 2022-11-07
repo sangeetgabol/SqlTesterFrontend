@@ -340,9 +340,15 @@ class QuestionManager extends React.Component {
                 size="small"
                 color="primary"
                 aria-label="Next question"
+                // disabled={
+                //   this.state.countNext ===
+                //   this.state.activeQuestionSet.length - 1
+                //     ? true
+                //     : false
+                // }
                 disabled={
-                  this.state.countNext ===
-                  this.state.activeQuestionSet.length - 1
+                  Boolean(activeQuestionSet[activeQuestionIndex]?.completed) ===
+                  false
                     ? true
                     : false
                 }
