@@ -14,6 +14,8 @@ import minMaxAvg from "./minMaxAvg";
 import count from "./count";
 import columnAlias from "./alias";
 import top from "./top";
+import deleteTable from "./deleteTable";
+
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
@@ -33,4 +35,5 @@ export default [
   between,
   like,
   top,
+  deleteTable
 ];
