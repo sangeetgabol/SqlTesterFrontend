@@ -6,6 +6,7 @@ const basicWhere = {
   set: "Easy",
   // title: "Basic WHERE clause",
   build: (db) => {
+    debugger;
     const tables = getTables(db);
 
     const [
