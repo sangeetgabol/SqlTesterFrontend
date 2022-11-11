@@ -15,6 +15,8 @@ import count from "./count";
 import columnAlias from "./alias";
 import top from "./top";
 import deleteTable from "./deleteTable";
+import createIndex from "./createIndex";
+
 
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -35,5 +37,6 @@ export default [
   between,
   like,
   top,
-  deleteTable
+  deleteTable,
+  createIndex
 ];
