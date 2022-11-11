@@ -16,6 +16,7 @@ import columnAlias from "./alias";
 import top from "./top";
 import deleteTable from "./deleteTable";
 import createIndex from "./createIndex";
+import fetchNext from "./fetchNext";
 
 
 
@@ -38,5 +39,6 @@ export default [
   like,
   top,
   deleteTable,
-  createIndex
+  createIndex,
+  fetchNext
 ];
