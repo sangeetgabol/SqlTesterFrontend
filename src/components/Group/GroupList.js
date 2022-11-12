@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Button from "@material-ui/core/Button";
-
+import Swal from "sweetalert2";
 import List from "@material-ui/core/List";
 
 import DialogActions from "@material-ui/core/DialogActions";
@@ -77,6 +77,16 @@ function GroupList(props) {
       });
       setList(updatedGroupList);
       setError(null);
+      handleClose();
+      Swal.fire({
+        text: "Group Joined Successfully",
+        icon: "success",
+        position: "bottom-end",
+        showCloseButton: false,
+        showConfirmButton: false,
+        timer: 3000,
+      });
+
       // this.setState({ list: updatedGroupList, error: null });
     } catch (response) {
       const error = await response;
@@ -87,6 +97,7 @@ function GroupList(props) {
 
       props.leaveGroupHandler();
     }
+    props.handleOpen();
   };
 
   const handleLeaveGroup = async () => {
@@ -154,6 +165,7 @@ function GroupList(props) {
             <GroupItem
               key={group._id}
               group={group}
+              closeHandler={props.closeHandler}
               joinGroupHandler={handleJoinGroup}
               leaveGroupHandler={handleLeaveGroup}
               dense={list.length >= 5}

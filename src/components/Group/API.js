@@ -37,17 +37,17 @@ export const updateGroup = (groupId, title) => {
   }).then(handleError);
 };
 
-// export const deleteGroup = (id) => {
-//   return fetch(`http://localhost:3001/api/group/delete/${id}`, {
-//     method: "GET",
-//     credentials: "same-origin",
-//     headers: new Headers({
-//       "Content-Type": "application/json",
-//     }),
-//   })
-//     .then(handleError)
-//     .then((res) => res.json());
-// };
+export const deleteGroup = (id) => {
+  return fetch(`http://localhost:3001/api/group/delete/${id}`, {
+    method: "GET",
+    credentials: "same-origin",
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  })
+    .then(handleError)
+    .then((res) => res.json());
+};
 
 export const getGroup = (id) => {
   return fetch(`${API_BASEURL}/api/group/${id}`, {

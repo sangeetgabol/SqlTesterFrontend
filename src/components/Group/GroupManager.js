@@ -19,6 +19,7 @@ export default function GroupManager(props) {
     loadDatabaseHandler,
     joinGroupHandler,
     leaveGroupHandler,
+    handleOpen,
   } = props;
 
   const ManageGroupComponent = ({ match }) => (
@@ -41,6 +42,7 @@ export default function GroupManager(props) {
         leaveGroupHandler={leaveGroupHandler}
         loadDatabaseHandler={loadDatabaseHandler}
         closeHandler={handleClose}
+        handleOpen={handleOpen}
       />
     </Dialog>
   );

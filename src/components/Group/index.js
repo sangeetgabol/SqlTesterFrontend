@@ -41,6 +41,7 @@ export default function Group(props) {
         <Suspense fallback={<div>Loading...</div>}>
           <LoadableGroupManager
             closeHandler={handleClose}
+            handleOpen={handleOpen}
             currentGroup={currentGroup}
             loadDatabaseHandler={loadDatabaseHandler}
             joinGroupHandler={joinGroupHandler}

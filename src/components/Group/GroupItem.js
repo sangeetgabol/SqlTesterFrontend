@@ -1,15 +1,15 @@
 import React from "react";
 
 import IconButton from "@material-ui/core/IconButton";
-
+import Swal from "sweetalert2";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-
+import DeleteIcon from "@mui/icons-material/Delete";
 import Typography from "@material-ui/core/Typography";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import SettingsIcon from "@mui/icons-material/Settings";
-
+import { deleteGroup } from "./API";
 import { Link } from "react-router-dom";
 
 const styles = {
@@ -21,6 +21,23 @@ export default function GroupItem(props) {
   const handleJoinGroup = () => props.joinGroupHandler(props.group._id);
 
   const handleLeaveGroup = () => props.leaveGroupHandler();
+  const deleteGroupFrom = async () => {
+    try {
+      deleteGroup(props.group._id);
+      props.closeHandler();
+      // window.location.reload();
+      Swal.fire({
+        text: "Group Deleted Successfully",
+        icon: "success",
+        position: "bottom-end",
+        showCloseButton: false,
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    } catch (response) {
+      const error = await response;
+    }
+  };
 
   // render() {
   const { group, dense } = props;
@@ -72,6 +89,15 @@ export default function GroupItem(props) {
           aria-label="Leave current group"
         >
           <ExitToAppIcon fontSize="small" />
+        </IconButton>
+        <IconButton
+          style={(dense && styles.smallButton) || {}}
+          // color="secondary"
+          onClick={deleteGroupFrom}
+          title="Leave this group"
+          aria-label="Leave current group"
+        >
+          <DeleteIcon fontSize="small" />
         </IconButton>
         {/* )} */}
       </ListItemSecondaryAction>
