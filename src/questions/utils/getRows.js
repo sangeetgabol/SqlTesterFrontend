@@ -1,8 +1,6 @@
 import flatten from "lodash/flatten";
 
 const getRows = (db, table, column, x = 1) => {
-  debugger;
-
   const [{ values: rows }] = db.exec(
     `SELECT "${column}" FROM "${table}" ORDER BY RANDOM() LIMIT ${x}`
   );

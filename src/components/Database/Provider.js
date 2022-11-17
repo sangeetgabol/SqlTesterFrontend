@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 
 // import initSqlJs from "sql.js/dist/sql-wasm";
 
@@ -15,8 +16,8 @@ import DatabaseContext from "./Context";
 import file from "../../sql-wasm.wasm";
 // const initSqlJs = window.initSqlJs;
 
-export default class Provider extends React.Component {
-  loadDatabase = async (typedArray) => {
+export default function Provider(props) {
+  const loadDatabase = async (typedArray) => {
     console.log("again", typedArray);
     const SQL = await initSqlJs({
       locateFile: () => file,
@@ -30,26 +31,30 @@ export default class Provider extends React.Component {
     // Save the database in the cache, for persistence without reliance of the server.
     saveDatabase(database);
 
-    return this.setState({ database });
+    return setDatabase(database);
+  };
+  const [database, setDatabase] = useState(null);
+
+  const state = {
+    database: database,
+    loadDatabase: loadDatabase,
   };
 
-  state = {
-    database: null,
-    loadDatabase: this.loadDatabase,
-  };
-
-  async componentDidMount() {
-    // Get a database from "somewhere"; localStorage or the default server-side.
+  useEffect(async () => {
     const database = await getDatabase("");
+    loadDatabase(database);
+  }, []);
+  // async componentDidMount() {
+  //   // Get a database from "somewhere"; localStorage or the default server-side.
+  //   const database = await getDatabase("");
 
-    this.loadDatabase(database);
-  }
+  //   this.loadDatabase(database);
+  // }
 
-  render() {
-    return (
-      <DatabaseContext.Provider value={this.state}>
-        {this.props.children}
-      </DatabaseContext.Provider>
-    );
-  }
+  // render() {
+  return (
+    <DatabaseContext.Provider value={state}>
+      {props.children}
+    </DatabaseContext.Provider>
+  );
 }

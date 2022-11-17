@@ -90,8 +90,8 @@ function GroupList(props) {
       // this.setState({ list: updatedGroupList, error: null });
     } catch (response) {
       const error = await response;
-
-      this.setState({ error });
+      setError(error);
+      // this.setState({ error });
 
       await leaveCurrentGroup();
 

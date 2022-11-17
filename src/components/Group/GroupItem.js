@@ -94,8 +94,8 @@ export default function GroupItem(props) {
           style={(dense && styles.smallButton) || {}}
           // color="secondary"
           onClick={deleteGroupFrom}
-          title="Leave this group"
-          aria-label="Leave current group"
+          title="Delete this group"
+          aria-label="Delete current group"
         >
           <DeleteIcon fontSize="small" />
         </IconButton>

@@ -31,8 +31,8 @@ export default function ChartManager(props) {
       {index === 2 && <PieChart data={setMetrics} />}
       {index === 3 && <Treemap data={questionMetrics} />}
       <Tabs
-        value={this.state.index}
-        onChange={this.handleChange}
+        value={index}
+        onChange={handleChange}
         indicatorColor="primary"
         textColor="primary"
         scrollButtons="auto"

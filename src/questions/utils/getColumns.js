@@ -9,7 +9,7 @@ const PRIMARY_KEY = 5; // eslint-disable-line no-unused-vars
 
 const getColumns = (db, tables, x = 1, type, notnull, sameTable = true) => {
   const result = [];
- debugger;
+
   for (let i = 0; i < tables.length && x > result.length; ++i) {
     // Check if we have a column cache for this table.
     if (
@@ -40,7 +40,7 @@ const getColumns = (db, tables, x = 1, type, notnull, sameTable = true) => {
 
       result.push({
         table: tables[i],
-        column: shuffledColumns[j][COLUMN_NAME]
+        column: shuffledColumns[j][COLUMN_NAME],
       });
     }
 

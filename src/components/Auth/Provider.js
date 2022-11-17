@@ -1,52 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import UserContext from "./Context";
 
 import { getCurrentUser } from "./API";
 
-export default class Provider extends React.Component {
-  login = user => this.setState({ user });
+export default function Provider(props) {
+  const [user, setUser] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const login = (user) => setUser(user);
 
-  joinGroup = group =>
-    this.setState(prevState => ({ user: { ...prevState.user, group } }));
+  const joinGroup = (group) =>
+    setUser((prevState) => ({ user: { ...prevState.user, group } }));
 
-  leaveGroup = () =>
-    this.setState(prevState => ({ user: { ...prevState.user, group: null } }));
+  const leaveGroup = () =>
+    setUser((prevState) => ({
+      user: { ...prevState.user, group: null },
+    }));
 
-  refresh = async () => {
+  const refresh = async () => {
     try {
       // If this application is client only, no login can occur, don't check.
       const user = process.env.REACT_APP_CLIENT_ONLY
         ? null
         : await getCurrentUser();
-
-      this.setState({ user, isLoaded: true });
+      setIsLoaded(true);
+      setUser(user);
+      // this.setState({ user, isLoaded: true });
     } catch (e) {
-      this.setState({ user: null, isLoaded: true });
+      setIsLoaded(true);
+      setUser(null);
+      // this.setState({ user: null, isLoaded: true });
     }
   };
 
-  logout = () => this.setState({ user: null });
+  const logout = () => setUser(null);
 
-  state = {
-    user: null,
-    isLoaded: false,
-    login: this.login,
-    joinGroup: this.joinGroup,
-    leaveGroup: this.leaveGroup,
-    refresh: this.refresh,
-    logout: this.logout
+  const state = {
+    user: user,
+    isLoaded: isLoaded,
+    login: login,
+    joinGroup: joinGroup,
+    leaveGroup: leaveGroup,
+    refresh: refresh,
+    logout: logout,
   };
+  useEffect(() => {
+    refresh();
+  }, []);
+  // componentDidMount() {
+  //   this.refresh();
+  // }
 
-  componentDidMount() {
-    this.refresh();
-  }
-
-  render() {
-    return (
-      <UserContext.Provider value={this.state}>
-        {this.props.children}
-      </UserContext.Provider>
-    );
-  }
+  // render() {
+  return (
+    <UserContext.Provider value={state}>{props.children}</UserContext.Provider>
+  );
 }

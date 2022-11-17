@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -36,22 +36,31 @@ const style = {
 };
 let myArray;
 let user = [];
-export default class ManageGroup extends React.Component {
-  state = {
-    error: null,
-    group: null,
-  };
+export default function ManageGroup(props) {
+  // state = {
+  //   error: null,
+  //   group: null,
+  // };
+  const [error, setError] = useState(null);
+  const [group, setGroup] = useState(null);
+  const [controlledTitle, setControlledTitle] = useState("");
+  // componentDidMount() {
+  //   const text = window.location.pathname;
+  //   myArray = text.split("/");
+  //   console.log(console.log(myArray));
+  //   // const { title } = myArray[4];
+  //   this.loadGroup(myArray);
+  // }
 
-  componentDidMount() {
+  useEffect(() => {
     const text = window.location.pathname;
     myArray = text.split("/");
     console.log(console.log(myArray));
     // const { title } = myArray[4];
-    this.loadGroup(myArray);
-  }
-
-  handleUpdateGroup = async () => {
-    const { id } = this.props.match.params;
+    loadGroup(myArray);
+  }, []);
+  const handleUpdateGroup = async () => {
+    const { id } = props.match.params;
     const { controlledTitle } = this.state;
 
     await updateGroup(id, controlledTitle);
@@ -61,10 +70,10 @@ export default class ManageGroup extends React.Component {
     }));
   };
 
-  handleRemoveUser = async (userId) => {
-    await removeUserFromGroup(this.props.match.params.id, userId);
+  const handleRemoveUser = async (userId) => {
+    await removeUserFromGroup(props.match.params.id, userId);
 
-    this.setState((prevState) => ({
+    setGroup((prevState) => ({
       group: {
         ...prevState.group,
         users: [...prevState.group.users.filter((user) => user._id !== userId)],
@@ -72,9 +81,10 @@ export default class ManageGroup extends React.Component {
     }));
   };
 
-  handleChange = (e) => this.setState({ controlledTitle: e.target.value });
+  const handleChange = (e) =>
+    this.setState({ controlledTitle: e.target.value });
 
-  loadGroup = async (myArray) => {
+  const loadGroup = async (myArray) => {
     console.log("d", myArray);
     const id = myArray[3];
     // console.log(id);
@@ -82,136 +92,137 @@ export default class ManageGroup extends React.Component {
       const group = await getGroup(id);
       console.log(group);
       user = group.users;
-      this.setState({ group, controlledTitle: group.title });
+      setGroup(group);
+      setControlledTitle(group.title);
+      // this.setState({ group, controlledTitle: group.title });
     } catch (response) {
-      const error = await response.text();
-
-      this.setState({ error });
+      // const error = await response.text();
+      // setError(error);
+      // this.setState({ error });
     }
   };
 
-  render() {
-    const { group, error } = this.state;
-    const text = window.location.pathname;
-    myArray = text.split("/");
-    console.log(console.log(myArray));
-    const title = myArray[4];
-    const header = (
-      <AppBar position="static">
-        <Toolbar variant="dense">
-          <IconButton
-            component={Link}
-            color="inherit"
-            to="/"
-            style={style.closeButton}
-            aria-label="Close"
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>
-          <Typography variant="h6" color="inherit" style={style.flex}>
-            {title}
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    );
+  // render() {
+  // const { group, error } = this.state;
+  const text = window.location.pathname;
+  myArray = text.split("/");
+  console.log(console.log(myArray));
+  const title = myArray[4];
+  const header = (
+    <AppBar position="static">
+      <Toolbar variant="dense">
+        <IconButton
+          component={Link}
+          color="inherit"
+          to="/"
+          style={style.closeButton}
+          aria-label="Close"
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+        <Typography variant="h6" color="inherit" style={style.flex}>
+          {title}
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  );
 
-    if (!group) {
-      return (
-        <React.Fragment>
-          {header}
-          <DialogContent>
-            <DialogContentText align="center">
-              Loading group information...
-            </DialogContentText>
-          </DialogContent>
-        </React.Fragment>
-      );
-    }
-
-    const { users, questionMetrics, setMetrics } = this.state.group;
-
-    if (error) {
-      return (
-        <React.Fragment>
-          {header}
-          <DialogContent>
-            <DialogContentText color="error" align="center">
-              {error}
-            </DialogContentText>
-          </DialogContent>
-        </React.Fragment>
-      );
-    }
-
+  if (!group) {
     return (
       <React.Fragment>
         {header}
-
-        <div style={{ margin: 16 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={4}>
-              <Typography
-                variant="body1"
-                color="textSecondary"
-                component="h3"
-                gutterBottom
-              >
-                Members
-              </Typography>
-              <Paper elevation={2} square>
-                <List dense={users.length >= 5} disablePadding>
-                  {users?.map((user) => (
-                    <GroupUser
-                      key={user._id}
-                      user={user}
-                      dense={users.length >= 5}
-                      removeHandler={this.handleRemoveUser}
-                    />
-                  ))}
-                </List>
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <Typography
-                    variant="body1"
-                    color="textSecondary"
-                    component="h3"
-                    gutterBottom
-                  >
-                    Group members progress
-                  </Typography>
-                  <BarChart data={user} />
-                </Grid>
-                <Grid item xs={12} sm={6} xl={3}>
-                  <Typography
-                    variant="body1"
-                    color="textSecondary"
-                    component="h3"
-                    gutterBottom
-                  >
-                    Comparison of question set ratio and their corresponding
-                    completed ratio
-                  </Typography>
-                  <PieChart data={setMetrics} />
-                </Grid>
-                <Grid item xs={12} sm={6} xl={9}>
-                  <Typography
-                    variant="body1"
-                    color="textSecondary"
-                    component="h3"
-                    gutterBottom
-                  >
-                    Comparison of question completion
-                  </Typography>
-                  <Treemap data={questionMetrics} />
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </div>
+        <DialogContent>
+          <DialogContentText align="center">
+            Loading group information...
+          </DialogContentText>
+        </DialogContent>
       </React.Fragment>
     );
   }
+
+  const { users, questionMetrics, setMetrics } = group;
+
+  if (error) {
+    return (
+      <React.Fragment>
+        {header}
+        <DialogContent>
+          <DialogContentText color="error" align="center">
+            {error}
+          </DialogContentText>
+        </DialogContent>
+      </React.Fragment>
+    );
+  }
+
+  return (
+    <React.Fragment>
+      {header}
+
+      <div style={{ margin: 16 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={4}>
+            <Typography
+              variant="body1"
+              color="textSecondary"
+              component="h3"
+              gutterBottom
+            >
+              Members
+            </Typography>
+            <Paper elevation={2} square>
+              <List dense={users.length >= 5} disablePadding>
+                {users?.map((user) => (
+                  <GroupUser
+                    key={user._id}
+                    user={user}
+                    dense={users.length >= 5}
+                    removeHandler={handleRemoveUser}
+                  />
+                ))}
+              </List>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography
+                  variant="body1"
+                  color="textSecondary"
+                  component="h3"
+                  gutterBottom
+                >
+                  Group members progress
+                </Typography>
+                <BarChart data={user} />
+              </Grid>
+              <Grid item xs={12} sm={6} xl={3}>
+                <Typography
+                  variant="body1"
+                  color="textSecondary"
+                  component="h3"
+                  gutterBottom
+                >
+                  Comparison of question set ratio and their corresponding
+                  completed ratio
+                </Typography>
+                <PieChart data={setMetrics} />
+              </Grid>
+              <Grid item xs={12} sm={6} xl={9}>
+                <Typography
+                  variant="body1"
+                  color="textSecondary"
+                  component="h3"
+                  gutterBottom
+                >
+                  Comparison of question completion
+                </Typography>
+                <Treemap data={questionMetrics} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </div>
+    </React.Fragment>
+  );
 }

@@ -118,22 +118,6 @@ function Sidebar({
         >
           <div className={classes.toolbar} />
           <div className={classes.gutterTop}>{schema}</div>
-          <h4 style={{ position: "relative", top: "8%", padding: "1rem" }}>
-            List of Databases{" "}
-          </h4>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            style={{ position: "relative", top: "5%" }}
-            // value={age}
-            label="Age"
-            // onChange={handleUpload}
-          >
-            <MenuItem>List Of Database</MenuItem>
-            {list?.map((item) => (
-              <MenuItem value={item.path}>{item.title}</MenuItem>
-            ))}
-          </Select>
 
           {schemaActions}
         </Drawer>

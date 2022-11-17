@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Section from "./Section";
 import Question from "../Question";
@@ -33,26 +33,33 @@ const styles = (theme) => ({
   toolbar: theme.mixins.toolbar,
 });
 
-class Main extends React.Component {
-  state = {
-    feedback: null,
+function Main(props) {
+  // state = {
+  //   feedback: null,
 
-    allQuestions: null,
-    activeQuestionIndex: 0,
-  };
+  //   allQuestions: null,
+  //   activeQuestionIndex: 0,
+  // };
 
-  changeFeedback = (feedback) =>
-    this.setState({
+  const [feedback, setFeedback] = useState(null);
+  const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
+  const [allQuestions, setAllQuestions] = useState(null);
+  const changeFeedback = (feedback) =>
+    setFeedback({
       feedback: { ...feedback, timestamp: new Date().getTime() },
     });
+  console.log(feedback, "d");
+  // componentDidMount() {
+  //   userData = JSON.parse(localStorage.getItem("user"));
 
-  componentDidMount() {
+  //   this.getQuestions();
+  // }
+  useEffect(() => {
     userData = JSON.parse(localStorage.getItem("user"));
 
-    this.getQuestions();
-  }
-
-  getQuestions = async () => {
+    getQuestions();
+  }, []);
+  const getQuestions = async () => {
     let allQuestions;
 
     // const { user } = this.props;
@@ -76,7 +83,7 @@ class Main extends React.Component {
         //console.log("Built new questions");
         // Cached questions, but the user is in a group that doesn't have questions.
         // Rebuild the questions for this group.
-        allQuestions = await buildQuestions(this.props.currentDatabase);
+        allQuestions = await buildQuestions(props.currentDatabase);
 
         // No group, no cache, so the questions got built, now save them locally.
         saveQuestions(allQuestions);
@@ -89,83 +96,108 @@ class Main extends React.Component {
       }
     }
 
-    return this.setState({ allQuestions });
+    return setAllQuestions(allQuestions);
   };
 
-  componentDidUpdate(prevProps) {
-    // Update the questions if:
-    // - The user is logged in, and they left a group;
-    // - The database has changed.
-    const hasLeftGroup =
-      this.props.user &&
-      prevProps.user &&
-      Boolean(!this.props.user.group) &&
-      prevProps.user.group;
+  // componentDidUpdate(prevProps) {
+  //   // Update the questions if:
+  //   // - The user is logged in, and they left a group;
+  //   // - The database has changed.
+  //   const hasLeftGroup =
+  //     this.props.user &&
+  //     prevProps.user &&
+  //     Boolean(!this.props.user.group) &&
+  //     prevProps.user.group;
 
-    const hasDatabaseChanged =
-      prevProps.currentDatabase &&
-      prevProps.currentDatabase.filename !==
-        this.props.currentDatabase.filename;
-    const allQuestions = JSON.parse(
-      localStorage.getItem("__testSQL_Questions__")
-    );
-    // this.setState({ allQuestions });
-    if (hasLeftGroup || hasDatabaseChanged) {
-      this.getQuestions();
-    }
-  }
+  //   const hasDatabaseChanged =
+  //     prevProps.currentDatabase &&
+  //     prevProps.currentDatabase.filename !==
+  //       this.props.currentDatabase.filename;
+  //   const allQuestions = JSON.parse(
+  //     localStorage.getItem("__testSQL_Questions__")
+  //   );
+  //   // this.setState({ allQuestions });
+  //   if (hasLeftGroup || hasDatabaseChanged) {
+  //     this.getQuestions();
+  //   }
+  // }
+  // useEffect(
+  //   (prevProps) => {
+  //     // Update the questions if:
+  //     // - The user is logged in, and they left a group;
+  //     // - The database has changed.
+  //     const hasLeftGroup =
+  //       this.props.user &&
+  //       prevProps.user &&
+  //       Boolean(!this.props.user.group) &&
+  //       prevProps.user.group;
 
-  changeQuestion = (index) => this.setState({ activeQuestionIndex: index });
+  //     const hasDatabaseChanged =
+  //       prevProps.currentDatabase &&
+  //       prevProps.currentDatabase.filename !==
+  //         this.props.currentDatabase.filename;
+  //     const allQuestions = JSON.parse(
+  //       localStorage.getItem("__testSQL_Questions__")
+  //     );
+  //     // this.setState({ allQuestions });
+  //     if (hasLeftGroup || hasDatabaseChanged) {
+  //       getQuestions();
+  //     }
+  //   },
+  //   [props.user]
+  // );
 
-  runQuery = async (sql) => {
-    console.log(this.props);
+  const changeQuestion = (index) => setActiveQuestionIndex(index);
+
+  const runQuery = async (sql) => {
+    console.log(props);
     // const { currentDatabase, loadDatabase } = this.props;
 
-    const { activeQuestionIndex, allQuestions } = this.state;
+    // const { activeQuestionIndex, allQuestions } = this.state;
 
     let results = [];
 
     try {
-      const output = this.props.currentDatabase.exec(sql);
+      const output = props.currentDatabase.exec(sql);
       console.log(output);
 
       // Check if any database actions were ran, if so only update the database.
-      if (this.props.currentDatabase.getRowsModified()) {
+      if (props.currentDatabase.getRowsModified()) {
         // TODO: Make this function name a saveDatabase()...
-        this.props.loadDatabase(this.props.currentDatabase);
+        props.loadDatabase(props.currentDatabase);
       } else {
         results = output;
       }
 
       if (
         checkAnswer(
-          this.props.currentDatabase,
+          props.currentDatabase,
           sql,
           allQuestions[activeQuestionIndex]
         )
       ) {
-        const updatedAllQuestions = await this.completeCurrentQuestion(sql);
-        console.log(this.props.user, this.props.user.group);
+        const updatedAllQuestions = await completeCurrentQuestion(sql);
+        // console.log(this.props.user, this.props.user.group);
         // Only save progress if in a group.
         if (userData) {
           saveProgress(updatedAllQuestions);
         } else {
-          saveQuestions(updatedAllQuestions, this.props.user);
+          saveQuestions(updatedAllQuestions, props.user);
           saveProgress(updatedAllQuestions);
         }
       }
     } catch (Error) {
-      this.changeFeedback({ message: Error.message, variant: "error" });
+      changeFeedback({ message: Error.message, variant: "error" });
     }
 
     // Update the results array in the Container component.
-    this.props.updateResultsHandler(results);
+    props.updateResultsHandler(results);
   };
 
-  completeCurrentQuestion = (sql) => {
-    const { activeQuestionIndex, allQuestions } = this.state;
+  const completeCurrentQuestion = (sql) => {
+    // const { activeQuestionIndex, allQuestions } = this.state;
 
-    this.changeFeedback({ message: "Correct Answer", variant: "success" });
+    changeFeedback({ message: "Correct Answer", variant: "success" });
 
     const activeQuestion = allQuestions[activeQuestionIndex];
 
@@ -178,47 +210,46 @@ class Main extends React.Component {
 
       return question;
     });
-
-    this.setState({
-      allQuestions: updatedAllQuestions,
-    });
+    setAllQuestions(updatedAllQuestions);
+    // this.setState({
+    //   allQuestions: updatedAllQuestions,
+    // });
 
     return updatedAllQuestions;
   };
 
-  render() {
-    const { allQuestions, activeQuestionIndex, feedback } = this.state;
+  // render() {
+  // const { allQuestions, activeQuestionIndex, feedback } = this.state;
 
-    // const { results, classes } = this.props;
+  // const { results, classes } = this.props;
 
-    return (
-      <main className={this.props.classes.containerStyle}>
-        <div className={this.props.classes.toolbar} />
-        <div className={this.props.classes.innerContainerStyle}>
-          <Section title="Questions">
-            {allQuestions && (
-              <Question
-                activeQuestionIndex={activeQuestionIndex}
-                allQuestions={allQuestions}
-                changeQuestionHandler={this.changeQuestion}
-              />
-            )}
+  return (
+    <main className={props.classes.containerStyle}>
+      <div className={props.classes.toolbar} />
+      <div className={props.classes.innerContainerStyle}>
+        <Section title="Questions">
+          {allQuestions && (
+            <Question
+              activeQuestionIndex={activeQuestionIndex}
+              allQuestions={allQuestions}
+              changeQuestionHandler={changeQuestion}
+            />
+          )}
+        </Section>
+
+        <Section title="Statement" padding="16px">
+          <InputForm submitHandler={runQuery} />
+        </Section>
+
+        {props.results.map((result, i) => (
+          <Section title="Results" key={i} padding="16px">
+            <OutputTable columns={result.columns} values={result.values} />
           </Section>
-
-          <Section title="Statement" padding="16px">
-            <InputForm submitHandler={this.runQuery} />
-          </Section>
-
-          {this.props.results.map((result, i) => (
-            <Section title="Results" key={i} padding="16px">
-              <OutputTable columns={result.columns} values={result.values} />
-            </Section>
-          ))}
-          <Feedback {...feedback} changeHandler={this.changeFeedback} />
-        </div>
-      </main>
-    );
-  }
+        ))}
+        <Feedback {...feedback} changeHandler={changeFeedback} />
+      </div>
+    </main>
+  );
 }
 
 export default withStyles(styles)(Main);
