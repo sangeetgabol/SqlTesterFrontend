@@ -25,7 +25,7 @@
     "recharts": "^2.1.15",
     "sql-wasm": "^1.1.4",
     "sql.js": "^1.8.0",
-    "sweetalert2": "^11.6.8",
+    "sweetalert2": "^11.6.9",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
