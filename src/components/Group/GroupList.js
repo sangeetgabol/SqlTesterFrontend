@@ -81,7 +81,7 @@ function GroupList(props) {
       Swal.fire({
         text: "Group Joined Successfully",
         icon: "success",
-        position: "bottom-end",
+        // position: "bottom-end",
         showCloseButton: false,
         showConfirmButton: false,
         timer: 3000,
@@ -97,7 +97,7 @@ function GroupList(props) {
 
       props.leaveGroupHandler();
     }
-    props.handleOpen();
+    // props.handleOpen();
   };
 
   const handleLeaveGroup = async () => {

@@ -59,16 +59,16 @@ export default function ManageGroup(props) {
     // const { title } = myArray[4];
     loadGroup(myArray);
   }, []);
-  const handleUpdateGroup = async () => {
-    const { id } = props.match.params;
-    const { controlledTitle } = this.state;
+  // const handleUpdateGroup = async () => {
+  //   const { id } = props.match.params;
+  //   const { controlledTitle } = this.state;
 
-    await updateGroup(id, controlledTitle);
+  //   await updateGroup(id, controlledTitle);
 
-    this.setState((prevState) => ({
-      group: { ...prevState.group, title: controlledTitle },
-    }));
-  };
+  //   this.setState((prevState) => ({
+  //     group: { ...prevState.group, title: controlledTitle },
+  //   }));
+  // };
 
   const handleRemoveUser = async (userId) => {
     await removeUserFromGroup(props.match.params.id, userId);
