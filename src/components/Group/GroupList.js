@@ -107,7 +107,7 @@ function GroupList(props) {
       // Update the isCurrent for all the groups in the list to false
       const updatedGroupList = list.map((listGroup) => {
         listGroup.isCurrent = false;
-
+        
         return listGroup;
       });
 
