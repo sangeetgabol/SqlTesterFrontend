@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { login } from "./API";
+import Register from "./Register";
 
 function Guest({ loginHandler }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
+  const [openRegister, setOpenRegister] = useState(false);
   const [error, setError] = useState(null);
 
   const handleLogin = async () => {
@@ -26,19 +28,24 @@ function Guest({ loginHandler }) {
       localStorage.setItem("user", JSON.stringify(user));
       return loginHandler(user);
     } catch (response) {
-      const error = await response.text();
+      // const error = await response.text();
       setError(error);
-      // this.setState({ error });
     }
   };
 
   const handleChangeUsername = (event) => setUsername(event.target.value);
   const handleChangePassowrd = (event) => setPassword(event.target.value);
-  // this.setState({ [event.target.id]: event.target.value });
 
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
+
+  const handleOpenRegister = () => {
+    setOpen(false);
+    setOpenRegister(true);
+  };
+
+  const handleCloseRegister = () => setOpenRegister(false);
   return (
     <React.Fragment>
       <Button color="inherit" onClick={handleOpen}>
@@ -50,6 +57,13 @@ function Guest({ loginHandler }) {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Login</DialogTitle>
+
+        <p style={{ margin: 0, padding: 0, textAlign: "center" }}>
+          Do Not Have Any Account?{" "}
+          <Button color="success" onClick={handleOpenRegister}>
+            Register
+          </Button>
+        </p>
 
         {error && (
           <DialogContent>
@@ -88,6 +102,7 @@ function Guest({ loginHandler }) {
           </Button>
         </DialogActions>
       </Dialog>
+      <Register handleClose={handleCloseRegister} open={openRegister} />
     </React.Fragment>
   );
 }
