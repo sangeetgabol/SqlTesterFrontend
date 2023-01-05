@@ -19,17 +19,14 @@ export default function Provider(props) {
 
   const refresh = async () => {
     try {
-      // If this application is client only, no login can occur, don't check.
       const user = process.env.REACT_APP_CLIENT_ONLY
         ? null
         : await getCurrentUser();
       setIsLoaded(true);
       setUser(user);
-      // this.setState({ user, isLoaded: true });
     } catch (e) {
       setIsLoaded(true);
       setUser(null);
-      // this.setState({ user: null, isLoaded: true });
     }
   };
 
@@ -47,11 +44,6 @@ export default function Provider(props) {
   useEffect(() => {
     refresh();
   }, []);
-  // componentDidMount() {
-  //   this.refresh();
-  // }
-
-  // render() {
   return (
     <UserContext.Provider value={state}>{props.children}</UserContext.Provider>
   );

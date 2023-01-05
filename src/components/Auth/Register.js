@@ -20,11 +20,9 @@ function Register({ handleClose, open }) {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
 
-  // const [open, setOpen] = useState(false);
   const [error, setError] = useState(null);
 
   const handleRegister = async () => {
-    // const { username, password } = this.state;
     if (confpassword === password) {
       try {
         const user = await register(
@@ -38,7 +36,6 @@ function Register({ handleClose, open }) {
         Swal.fire({
           text: "Register Successfully",
           icon: "success",
-          // position: "bottom-end",
           showCloseButton: false,
           showConfirmButton: false,
           timer: 3000,
@@ -51,8 +48,6 @@ function Register({ handleClose, open }) {
     } else {
       Swal.fire({
         text: "Password Does not Matched",
-        // icon: "error",
-        // position: "bottom-end",
         showCloseButton: false,
         showConfirmButton: false,
         timer: 3000,
@@ -91,7 +86,6 @@ function Register({ handleClose, open }) {
             label="FirstName"
             onChange={handleChangeFirstName}
             margin="dense"
-            // autoFocus
             fullWidth
             required
           />
@@ -101,7 +95,6 @@ function Register({ handleClose, open }) {
             label="LastName"
             onChange={handleChangeLastName}
             margin="dense"
-            // autoFocus
             fullWidth
             required
           />

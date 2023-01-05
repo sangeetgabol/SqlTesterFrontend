@@ -10,23 +10,17 @@ import SaveDatabase from "./SaveDatabase";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 export default function DatabaseManager(props) {
-  // state = {
-  //   list: null,
-  // };
+
   const [list, setList] = useState([]);
-  // componentDidMount = () => this.refreshSavedDatabaseList();
   useEffect(() => {
     refreshSavedDatabaseList();
   }, []);
   const refreshSavedDatabaseList = () => {
     listDatabases().then((list) => setList(list));
-    // window.location.reload();
   };
 
   const handleClose = () => props.closeHandler();
 
-  // render() {
-  // const { list } = this.state;
 
   if (list === null) {
     return null;
@@ -55,7 +49,6 @@ export default function DatabaseManager(props) {
 
   return (
     <Dialog open={true} onClose={handleClose} fullWidth>
-      {/* <DatabaseListComponent /> */}
       <Routes>
         <Route path="/database/save" element={<SaveDatabaseComponent />} />
         <Route path="/" element={<DatabaseListComponent />} />

@@ -20,9 +20,7 @@ import ListItemText from "@mui/material/ListItemText";
 const flexSpaceBetween = { display: "flex", justifyContent: "space-between" };
 
 export default function DatabaseList(props) {
-  // state = {
-  //   error: null
-  // };
+
   const [error, setError] = useState(null);
   const handleLoadDatabase = async (id) => {
     const { loadDatabaseHandler, closeHandler } = props;
@@ -40,7 +38,6 @@ export default function DatabaseList(props) {
     } catch (response) {
       const error = await response.text();
       setError(error);
-      // this.setState({ error });
     }
   };
 
@@ -59,9 +56,6 @@ export default function DatabaseList(props) {
   };
 
   const handleClose = () => props.closeHandler();
-
-  // render() {
-  // const { error } = this.state;
 
   const { list } = props;
 

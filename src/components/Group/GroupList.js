@@ -24,16 +24,12 @@ function GroupList(props) {
   const [error, setError] = useState(null);
   const [list, setList] = useState(null);
 
-  // state = {
-  //   list: null,
-  //   error: null
-  // };
+
 
   useEffect(() => {
     load();
   }, []);
 
-  // componentDidMount = () => this.load();
 
   const load = async () => {
     // Attempt to load all the available groups.
@@ -41,11 +37,9 @@ function GroupList(props) {
       const groups = await listGroups();
       setList(groups);
       setError(null);
-      // this.setState({ list: groups, error: null });
     } catch (response) {
       const error = await response.text();
       setError(error);
-      // this.setState({ error });
     }
   };
 
@@ -87,17 +81,14 @@ function GroupList(props) {
         timer: 3000,
       });
 
-      // this.setState({ list: updatedGroupList, error: null });
     } catch (response) {
       const error = await response;
       setError(error);
-      // this.setState({ error });
 
       await leaveCurrentGroup();
 
       props.leaveGroupHandler();
     }
-    // props.handleOpen();
   };
 
   const handleLeaveGroup = async () => {
@@ -117,12 +108,10 @@ function GroupList(props) {
       props.leaveGroupHandler();
       setList(updatedGroupList);
       setError(null);
-      // this.setState({ list: updatedGroupList, error: null });
     } catch (response) {
       const error = await response.text();
       setError(error);
 
-      // this.setState({ error });
     }
   };
 
@@ -181,6 +170,5 @@ function GroupList(props) {
     </React.Fragment>
   );
 }
-//}
 
 export default GroupList;

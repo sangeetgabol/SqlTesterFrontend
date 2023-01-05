@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-//import PropTypes from 'prop-types';
 
 import Button from "@material-ui/core/Button";
 
@@ -20,20 +19,15 @@ import { Link } from "react-router-dom";
 const flexSpaceBetween = { display: "flex", justifyContent: "space-between" };
 
 export default function SaveDatabase(props) {
-  // state = {
-  //   title: "",
-  //   error: null
-  // };
+
   const [title, setTitle] = useState("");
   const [error, setError] = useState(null);
   const handleSaveDatabase = async () => {
-    // const { title } = this.state;
 
     const { refreshSavedDatabaseList, currentDatabase } = props;
 
     // Export the current database into a array buffer.
     const database = currentDatabase.export();
-    // const database = localStorage.getItem("__testSQL_Database__");
     // Try to save the database on the server.
     console.log(database);
     try {
@@ -54,9 +48,6 @@ export default function SaveDatabase(props) {
   const handleChange = (e) => setTitle(e.target.value);
 
   const handleClose = () => props.closeHandler();
-
-  // render() {
-  // const { title, error } = this.state;
 
   const { currentSavedDatabaseCount } = props;
 

@@ -13,7 +13,7 @@ function UploadDatabase(props) {
   const handleUpload = (e) => {
     const files = e.target.files;
 
-    // console.log(files);
+   
     // No file selected, return
     if (files.length === 0) return false;
 
@@ -36,7 +36,6 @@ function UploadDatabase(props) {
     window.location.reload();
   };
 
-  // render() {
   return (
     <UserContext.Consumer>
       {({ user, isLoaded }) =>

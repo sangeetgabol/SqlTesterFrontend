@@ -10,17 +10,11 @@ const LoadableDatabaseManager = React.lazy(() =>
 );
 
 export default function SavedDatabase(props) {
-  // state = {
-  //   open: false,
-  // };
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
-
-  // render() {
-  // const { open } = this.state;
 
   const { currentDatabase, loadDatabaseHandler, disabled } = props;
 
@@ -46,7 +40,6 @@ export default function SavedDatabase(props) {
         <span style={{ display: "inline-block" }}>
           <IconButton
             onClick={handleOpen}
-            // onMouseOver={this.handleMouseOver}
             color="inherit"
             aria-label="Saved Database Actions"
           >

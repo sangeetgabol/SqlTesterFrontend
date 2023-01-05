@@ -7,16 +7,12 @@ const LoadableGroupManager = React.lazy(() =>
 );
 
 export default function Group(props) {
-  // state = {
-  //   open: false,
-  // };
+ 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
-  // render() {
-  //   const { open } = this.state;
-
+  
   const {
     currentGroup,
     joinGroupHandler,
@@ -31,7 +27,6 @@ export default function Group(props) {
           color={currentGroup ? "secondary" : "inherit"}
           aria-label="Group List"
           onClick={handleOpen}
-          // onMouseOver={this.handleMouseOver}
         >
           <GroupIcon fontSize="small" />
         </IconButton>

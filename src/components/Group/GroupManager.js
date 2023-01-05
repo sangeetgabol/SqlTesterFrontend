@@ -13,7 +13,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 export default function GroupManager(props) {
   const handleClose = () => props.closeHandler();
 
-  // render() {
+
   const {
     currentGroup,
     loadDatabaseHandler,
@@ -50,7 +50,6 @@ export default function GroupManager(props) {
   // Why do some routes use `component` prop and some the `render` prop?
   // https://stackoverflow.com/a/48152635
   return (
-    // <Routes>
     <Routes>
       <Route path="/" element={<GroupListComponent />} />
       <Route
@@ -58,9 +57,8 @@ export default function GroupManager(props) {
         element={<ManageGroupComponent />}
       />
       <Route path="/group/create" element={<CreateGroupComponent />} />
-      {/* <Route render={GroupListComponent} /> */}
+     
     </Routes>
-    // </Routes>
   );
 }
-//}
+

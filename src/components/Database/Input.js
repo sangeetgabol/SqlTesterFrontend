@@ -8,7 +8,6 @@ import Button from "@material-ui/core/Button";
 import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from "@mui/icons-material/Clear";
 
-//import brace from "brace";
 import AceEditor from "react-ace";
 
 import "brace/mode/sql";
@@ -34,20 +33,13 @@ const styles = (theme) => ({
 });
 
 function DatabaseInput({ submitHandler, classes }) {
-  // state = {
-  //   statement: "",
-  // };
+
   const [statement, setStatement] = useState("");
   const handleChange = (statement) => setStatement(statement);
 
   const handleClear = () => setStatement("");
 
   const handleSubmit = () => submitHandler(statement);
-
-  // render() {
-  // const { classes } = this.props;
-
-  // const { statement } = this.state;
 
   return (
     <React.Fragment>

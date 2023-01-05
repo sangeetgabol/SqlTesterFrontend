@@ -34,14 +34,9 @@ const styles = (theme) => ({
 });
 
 function Main(props) {
-  // state = {
-  //   feedback: null,
-
-  //   allQuestions: null,
-  //   activeQuestionIndex: 0,
-  // };
-
+ 
   const [feedback, setFeedback] = useState(null);
+  const [val, setVal] = useState(false);
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
   const [allQuestions, setAllQuestions] = useState(null);
   const changeFeedback = (feedback) =>
@@ -49,11 +44,7 @@ function Main(props) {
       feedback: { ...feedback, timestamp: new Date().getTime() },
     });
   console.log(feedback, "d");
-  // componentDidMount() {
-  //   userData = JSON.parse(localStorage.getItem("user"));
-
-  //   this.getQuestions();
-  // }
+ 
   useEffect(() => {
     userData = JSON.parse(localStorage.getItem("user"));
 
@@ -62,25 +53,21 @@ function Main(props) {
   const getQuestions = async () => {
     let allQuestions;
 
-    // const { user } = this.props;
 
     const group = (userData && userData.group) || null;
 
     // Has the group already have generated questions.
     // Joining a group SHOULD remove all questions so they are rebuilt with the new group database.
     if (group && group.questions && group.questions.length > 0) {
-      //console.log("Used group questions");
       allQuestions = group.questions;
     } else {
       // Check the localStorage for any cached question sets
       const cachedQuestions = localStorage.getItem("__testSQL_Questions__");
 
       if (cachedQuestions && !group) {
-        //console.log("Used cached questions");
         // Cached questions, and the user is not in a group.
         allQuestions = JSON.parse(cachedQuestions);
       } else {
-        //console.log("Built new questions");
         // Cached questions, but the user is in a group that doesn't have questions.
         // Rebuild the questions for this group.
         allQuestions = await buildQuestions(props.currentDatabase);
@@ -99,62 +86,11 @@ function Main(props) {
     return setAllQuestions(allQuestions);
   };
 
-  // componentDidUpdate(prevProps) {
-  //   // Update the questions if:
-  //   // - The user is logged in, and they left a group;
-  //   // - The database has changed.
-  //   const hasLeftGroup =
-  //     this.props.user &&
-  //     prevProps.user &&
-  //     Boolean(!this.props.user.group) &&
-  //     prevProps.user.group;
-
-  //   const hasDatabaseChanged =
-  //     prevProps.currentDatabase &&
-  //     prevProps.currentDatabase.filename !==
-  //       this.props.currentDatabase.filename;
-  //   const allQuestions = JSON.parse(
-  //     localStorage.getItem("__testSQL_Questions__")
-  //   );
-  //   // this.setState({ allQuestions });
-  //   if (hasLeftGroup || hasDatabaseChanged) {
-  //     this.getQuestions();
-  //   }
-  // }
-  // useEffect(
-  //   (prevProps) => {
-  //     // Update the questions if:
-  //     // - The user is logged in, and they left a group;
-  //     // - The database has changed.
-  //     const hasLeftGroup =
-  //       this.props.user &&
-  //       prevProps.user &&
-  //       Boolean(!this.props.user.group) &&
-  //       prevProps.user.group;
-
-  //     const hasDatabaseChanged =
-  //       prevProps.currentDatabase &&
-  //       prevProps.currentDatabase.filename !==
-  //         this.props.currentDatabase.filename;
-  //     const allQuestions = JSON.parse(
-  //       localStorage.getItem("__testSQL_Questions__")
-  //     );
-  //     // this.setState({ allQuestions });
-  //     if (hasLeftGroup || hasDatabaseChanged) {
-  //       getQuestions();
-  //     }
-  //   },
-  //   [props.user]
-  // );
-
   const changeQuestion = (index) => setActiveQuestionIndex(index);
 
   const runQuery = async (sql) => {
     console.log(props);
-    // const { currentDatabase, loadDatabase } = this.props;
-
-    // const { activeQuestionIndex, allQuestions } = this.state;
-
+   
     let results = [];
 
     try {
@@ -163,7 +99,6 @@ function Main(props) {
 
       // Check if any database actions were ran, if so only update the database.
       if (props.currentDatabase.getRowsModified()) {
-        // TODO: Make this function name a saveDatabase()...
         props.loadDatabase(props.currentDatabase);
       } else {
         results = output;
@@ -177,8 +112,7 @@ function Main(props) {
         )
       ) {
         const updatedAllQuestions = await completeCurrentQuestion(sql);
-        // console.log(this.props.user, this.props.user.group);
-        // Only save progress if in a group.
+
         if (userData) {
           saveProgress(updatedAllQuestions);
         } else {
@@ -189,14 +123,13 @@ function Main(props) {
     } catch (Error) {
       changeFeedback({ message: Error.message, variant: "error" });
     }
-
+    setVal(!val);
     // Update the results array in the Container component.
     props.updateResultsHandler(results);
   };
 
   const completeCurrentQuestion = (sql) => {
-    // const { activeQuestionIndex, allQuestions } = this.state;
-
+    
     changeFeedback({ message: "Correct Answer", variant: "success" });
 
     const activeQuestion = allQuestions[activeQuestionIndex];
@@ -211,17 +144,10 @@ function Main(props) {
       return question;
     });
     setAllQuestions(updatedAllQuestions);
-    // this.setState({
-    //   allQuestions: updatedAllQuestions,
-    // });
 
     return updatedAllQuestions;
   };
-
-  // render() {
-  // const { allQuestions, activeQuestionIndex, feedback } = this.state;
-
-  // const { results, classes } = this.props;
+  console.log("dd", val);
 
   return (
     <main className={props.classes.containerStyle}>
@@ -233,6 +159,8 @@ function Main(props) {
               activeQuestionIndex={activeQuestionIndex}
               allQuestions={allQuestions}
               changeQuestionHandler={changeQuestion}
+              val={val}
+              setVal={setVal}
             />
           )}
         </Section>

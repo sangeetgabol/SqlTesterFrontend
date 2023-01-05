@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import MenuItem from "@mui/material/MenuItem";
-// import nae from "../../../../sqltester-backend/saves/";
 import { withStyles } from "@material-ui/core/styles";
 import Select from "@mui/material/Select";
 import DownloadDatabase from "../Database/Download";
@@ -46,16 +45,7 @@ function Sidebar({
 }) {
   const handleToggleSidebar = () => toggleSidebarHandler(false);
   const [list, setList] = useState([]);
-  // render() {
-  // const {
-  //   classes,
-  //   open,
-  //   showSchemaHandler,
-  //   uploadDatabaseHandler,
-  //   currentDatabase,
-  //   toggleSidebarHandler,
-  // } = props;
-
+  
   const schema = (
     <Schema
       currentDatabase={currentDatabase}
@@ -71,19 +61,6 @@ function Sidebar({
     </div>
   );
 
-  // const handleUpload = async (event) => {
-  //   let defaultDatabase = event.target.value;
-  //   // defaultDatabase = nae + defaultDatabase;
-  //   let typedArray;
-
-  //   await fetch(defaultDatabase)
-  //     .then((res) => res.arrayBuffer())
-  //     .then((arrayBuffer) => {
-  //       typedArray = new Uint8Array(arrayBuffer);
-  //     });
-  //   console.log(typedArray);
-  //   // window.location.reload();
-  // };
   useEffect(() => {
     listDatabases().then((list) => setList(list));
   }, []);
@@ -100,7 +77,7 @@ function Sidebar({
             paper: classes.drawerPaper,
           }}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true, 
           }}
         >
           <div className={classes.gutterTop}>{schema}</div>

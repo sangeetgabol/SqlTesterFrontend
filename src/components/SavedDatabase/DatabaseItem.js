@@ -11,7 +11,6 @@ export default function DatabaseItem(props) {
 
   const handleDelete = () => props.deleteHandler(props.database._id);
 
-  // render() {
   const { title, createdAt } = props.database;
 
   const date = new Date(createdAt).toDateString();

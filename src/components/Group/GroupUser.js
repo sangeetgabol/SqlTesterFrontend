@@ -19,7 +19,6 @@ const styles = {
 export default function GroupUser (props) {
  const handleRemoveUser = () => props.removeHandler(props.user._id);
 
-  // render() {
     const { user, dense } = props;
 
     const {
@@ -64,4 +63,4 @@ export default function GroupUser (props) {
       </ListItem>
     );
   }
-//}
+

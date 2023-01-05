@@ -44,7 +44,6 @@ const Header = (props) => (
       <Typography variant="h6" color="inherit" noWrap>
         TestSQL
       </Typography>
-      {/* {!process.env.REACT_APP_CLIENT_ONLY && ( */}
       <div className={props.classes.userActionsContainer}>
         <UserContext.Consumer>
           {({ user, isLoaded, login, joinGroup, leaveGroup, logout }) =>
@@ -62,7 +61,6 @@ const Header = (props) => (
           }
         </UserContext.Consumer>
       </div>
-      {/* )} */}
     </Toolbar>
   </AppBar>
 );

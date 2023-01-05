@@ -58,57 +58,13 @@ function Feedback(props) {
   const [variant, setVariant] = useState(null);
   const [timestamp, setTimestamp] = useState(null);
   const [open, setOpen] = useState(null);
-  // state = {
-  //   message: null,
-  //   variant: null,
-  //   timestamp: null,
-  //   open: false,
-  // };
+ 
 
-  // componentDidUpdate(prevProps) {
-  //   // Skip if no feedback object is passed OR is the same as the previous object.
-  //   if (
-  //     !this.props.timestamp ||
-  //     (typeof prevProps.timestamp !== "undefined" &&
-  //       this.props.timestamp === prevProps.timestamp)
-  //   ) {
-  //     return;
-  //   }
+ 
 
-  //   // If a new feedback object is passed, and isn't the same as the previous object injected
-  //   this.queue.push({
-  //     message: this.props.message,
-  //     variant: this.props.variant,
-  //     timestamp: this.props.timestamp,
-  //   });
-
-  //   if (this.state.open) {
-  //     // immediately begin dismissing current message
-  //     // to start showing new one
-  //     return this.setState({ open: false });
-  //   } else {
-  //     return this.processQueue();
-  //   }
-  // }
   useEffect(() => {
-    // Skip if no feedback object is passed OR is the same as the previous object.
-    // if (
-    //   !props.timestamp ||
-    //   (typeof prevProps.timestamp !== "undefined" &&
-    //     props.timestamp === prevProps.timestamp)
-    // ) {
-    //   return;
-    // }
-    // a++;
-    // If a new feedback object is passed, and isn't the same as the previous object injected
-
-    // if (open) {
-    // immediately begin dismissing current message
-    // to start showing new one
-    // return setOpen(false);
-    // } else {
+   
     return processQueue();
-    // }
   }, [props]);
   console.log("s", queue);
   const handleClose = (event, reason) => {
@@ -129,12 +85,7 @@ function Feedback(props) {
     if (queue.length > 0) {
       const { message, variant } = queue.shift();
 
-      // this.setState({
-      //   message,
-      //   variant,
-      //   timestamp,
-      //   open: true,
-      // });
+   
       setOpen(true);
       setMessage(message);
       setVariant(variant);
@@ -144,7 +95,7 @@ function Feedback(props) {
 
   const handleExited = () => processQueue();
 
-  // render() {
+  
   const { classes } = props;
 
   // Return nothing if no message is set yet.

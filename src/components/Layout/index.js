@@ -13,9 +13,7 @@ const containerStyle = {
 };
 
 export default function Layout() {
-  // state = {
-  //   openSidebar: false,
-  // };
+ 
   const [openSidebar, setOpenSidebart] = useState(false);
   const handleToggleSidebar = (open) =>
     // If the open parameter is not passed it will toggle the previous state.
@@ -23,9 +21,6 @@ export default function Layout() {
       openSidebar:
         typeof open === "undefined" ? !prevState.openSidebar : Boolean(open),
     }));
-
-  // render() {
-  // const { openSidebar } = this.state;
 
   return (
     <div style={containerStyle}>

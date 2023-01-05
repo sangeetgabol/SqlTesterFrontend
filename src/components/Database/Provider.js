@@ -27,7 +27,7 @@ export default function Provider(props) {
     const database = new SQL.Database(typedArray);
     console.log(database);
     database.lastModified = Date.now();
-    // localStorage.setItem("__testSQL_Database__", database);
+   
     // Save the database in the cache, for persistence without reliance of the server.
     saveDatabase(database);
 
@@ -44,14 +44,7 @@ export default function Provider(props) {
     const database = await getDatabase("");
     loadDatabase(database);
   }, []);
-  // async componentDidMount() {
-  //   // Get a database from "somewhere"; localStorage or the default server-side.
-  //   const database = await getDatabase("");
 
-  //   this.loadDatabase(database);
-  // }
-
-  // render() {
   return (
     <DatabaseContext.Provider value={state}>
       {props.children}

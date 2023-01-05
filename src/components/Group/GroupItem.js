@@ -25,7 +25,6 @@ export default function GroupItem(props) {
     try {
       deleteGroup(props.group._id);
       props.closeHandler();
-      // window.location.reload();
       Swal.fire({
         text: "Group Deleted Successfully",
         icon: "success",
@@ -39,7 +38,6 @@ export default function GroupItem(props) {
     }
   };
 
-  // render() {
   const { group, dense } = props;
 
   const {
@@ -67,9 +65,7 @@ export default function GroupItem(props) {
         {`${completedQuestions}/${totalQuestions}`}
       </Typography>
       <ListItemText primary={title} />
-      {/* {(canManage || isCurrent) && ( */}
       <ListItemSecondaryAction>
-        {/* {canManage && ( */}
         <IconButton
           style={(dense && styles.smallButton) || {}}
           component={Link}
@@ -79,8 +75,7 @@ export default function GroupItem(props) {
         >
           <SettingsIcon fontSize="small" />
         </IconButton>
-        {/* )} */}
-        {/* {isCurrent && ( */}
+   
         <IconButton
           style={(dense && styles.smallButton) || {}}
           color="secondary"
@@ -99,9 +94,7 @@ export default function GroupItem(props) {
         >
           <DeleteIcon fontSize="small" />
         </IconButton>
-        {/* )} */}
       </ListItemSecondaryAction>
-      {/* )} */}
     </ListItem>
   );
 }

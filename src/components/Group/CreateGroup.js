@@ -35,24 +35,15 @@ function CreateGroup (props){
   const [name, setName] = useState("");
   const [selectedDatabase, setSelectedDatabase] = useState("");
   const [redirect, setRedirect] = useState(false);
-  // state = {
-  //   error: null,
-  //   list: null,
-
-  //   name: "",
-  //   selectedDatabase: "",
-  //   redirect: false,
-  // };
+ 
   useEffect(()=>{
     listDatabases().then((list) => setList(list));
 
   }, [])
 
-  // componentDidMount = () =>
-  //   listDatabases().then((list) => this.setState({ list }));
+
 
  const handleSubmit = async () => {
-    // const { name, selectedDatabase } = this.state;
 
     try {
       await createGroup(name, selectedDatabase);
@@ -73,8 +64,6 @@ function CreateGroup (props){
   };
  
 
-  // render() {
-  //   const { name, error, list, selectedDatabase, redirect } = this.state;
 
     if (redirect) {
       return <Redirect to="/" />;

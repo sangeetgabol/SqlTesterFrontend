@@ -20,7 +20,6 @@ function Guest({ loginHandler }) {
   const [error, setError] = useState(null);
 
   const handleLogin = async () => {
-    // const { username, password } = this.state;
 
     try {
       const user = await login(username, password);
@@ -28,7 +27,6 @@ function Guest({ loginHandler }) {
       localStorage.setItem("user", JSON.stringify(user));
       return loginHandler(user);
     } catch (response) {
-      // const error = await response.text();
       setError(error);
     }
   };
